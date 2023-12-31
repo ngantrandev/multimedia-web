@@ -23,6 +23,9 @@
 	<bean id="viewResolver" 
 		p:prefix="/WEB-INF/views/" p:suffix=".jsp"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+		
+	<!-- Cấu hình để đọc ảnh từ thư mục static_images -->
+    <mvc:resources mapping="/static_images/**" location="/WEB-INF/static_images/"/>
    	
    	<!-- Cấu hình package chứa các controller -->
 	<context:component-scan base-package="ptithcm.controller"/>
