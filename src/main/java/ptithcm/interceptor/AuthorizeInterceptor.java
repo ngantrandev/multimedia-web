@@ -6,8 +6,6 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import ptithcm.entity.User;
-
 public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
 
 	@Override

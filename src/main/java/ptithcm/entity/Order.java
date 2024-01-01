@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import ptithcm.entity.;
+import ptithcm.entity.AnPham;
 
 @Entity
 @Table(name = "giohang")
@@ -15,9 +15,9 @@ public class Order {
 	@Id
 	@GeneratedValue
 	private String id;
-//	@ManyToOne
-//	@JoinColumn(name = "maanpham")
-//	private AnPham anPham;
+	@ManyToOne
+	@JoinColumn(name = "maanpham")
+	private AnPham anPham;
 
 	@ManyToOne
 	@JoinColumn(name = "mssv")
