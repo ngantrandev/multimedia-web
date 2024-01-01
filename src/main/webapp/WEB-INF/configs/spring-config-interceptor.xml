@@ -15,12 +15,6 @@
 			http://www.springframework.org/schema/mvc/spring-mvc.xsd">
 
 	<mvc:interceptors>
-		<mvc:interceptor>
-			<mvc:mapping path="/home/index.htm" />
-			<mvc:mapping path="/home/about.htm" />
-
-			<bean class="ptithcm.interceptor.LoggerInterceptor" />
-		</mvc:interceptor>
 
 		<mvc:interceptor>
 			<mvc:mapping path="/user/logoff**" />

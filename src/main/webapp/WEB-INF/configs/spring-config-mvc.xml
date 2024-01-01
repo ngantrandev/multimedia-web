@@ -18,7 +18,6 @@
 	<!-- Spring MVC Annotation -->
 	<context:annotation-config />
 	<mvc:annotation-driven/>
-	
 	<!-- Cấu hình view -->
 	<bean id="viewResolver" 
 		p:prefix="/WEB-INF/views/" p:suffix=".jsp"
@@ -26,5 +25,14 @@
    	
    	<!-- Cấu hình package chứa các controller -->
 	<context:component-scan base-package="ptithcm.controller"/>
+	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="maxUploadSize" value="209712520"/>
+	</bean>
+	
+	<bean id="envConfig" class="ptithcm.config.EnvConfig">
+		<property name="pathUploadFile" 
+			value="/Users/ldevmobile1710/eclipse-workspace/multimedia_web/multimedia_web/src/main/webapp/uploaded_file"/>
+	</bean>
 
 </beans>

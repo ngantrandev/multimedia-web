@@ -4,6 +4,7 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <base href="${pageContext.servletContext.contextPath}"/>
 	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
   	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
@@ -28,6 +29,7 @@
   		
   		#title-notification {
   			color:black;
+  			margin-top:12px;
   			font-weight:bold;
   			font-size:25px;
   		}
@@ -36,6 +38,11 @@
   			color:black;
   			font-size:20px;
   		}
+  		
+  		#logo {
+  			width:20px;
+  			height:20px;
+  		}
   	</style>
 </head>
 <body>
@@ -43,7 +50,7 @@
 	  <div class="container-fluid">
 	    <div class="navbar-header">
 	      <a class="navbar-brand" href="#">
-	      	<img src="${pageContext.request.contextPath}/WEB-INF/icon/logo.png">
+	      	<img id="logo" src="/multimedia_web/image/logo.png">
 	      </a>
 	    </div>
 	    <ul class="nav navbar-nav">
@@ -54,6 +61,13 @@
 	    </ul>
 	  </div>
 	</nav>
+	
+	<form action="/multimedia_web/notification/create.htm"
+		method="POST" enctype="multipart/form-data">
+		<input type="file" name="img">
+		<button>Upload</button>
+	</form>
+	
 	<h2 style="margin-left:24px">Thông báo</h2>
 	<br/>
 	<c:forEach var="i" begin="0" end="${notifications.size()-1}">
