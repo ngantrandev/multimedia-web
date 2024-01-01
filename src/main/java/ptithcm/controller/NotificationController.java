@@ -1,4 +1,4 @@
-package ptithcm.controller.notification;
+package ptithcm.controller;
 
 import java.io.File;
 import java.net.http.HttpHeaders;
@@ -32,8 +32,8 @@ public class NotificationController {
 	@Autowired
 	ServletContext context;
 	
-	@Autowired
-	EnvConfig envConfig;
+//	@Autowired
+//	EnvConfig envConfig;
 	
 	
 	@Transactional
@@ -45,16 +45,16 @@ public class NotificationController {
 		return "notification/notification_page";
 	}
 	
-	@RequestMapping ("/notification/create")
-	public String createnNotification(ModelMap model,@RequestParam("img") MultipartFile file) {
-		try {
-			file.transferTo(new File(
-							envConfig.getPathUploadFile()+"/"+file.getOriginalFilename()));
-		} catch (Exception e) {
-			System.out.println(e);
-		}
-		return "student/form";
-	}
+//	@RequestMapping ("/notification/create")
+//	public String createnNotification(ModelMap model,@RequestParam("img") MultipartFile file) {
+//		try {
+//			file.transferTo(new File(
+//							envConfig.getPathUploadFile()+"/"+file.getOriginalFilename()));
+//		} catch (Exception e) {
+//			System.out.println(e);
+//		}
+//		return "student/form";
+//	}
 	
 	@RequestMapping ("/notification/download_file/${fileName}")
 	public File downloadFile(HttpServletRequest request,@PathVariable("fileName") String name) {
