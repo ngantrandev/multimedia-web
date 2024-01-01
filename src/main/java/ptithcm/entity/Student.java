@@ -138,22 +138,4 @@ public class Student {
     public void setGender(int gender) {
         this.gender = gender;
     }
-
-//    @Override
-//    public String toString() {
-//        return "Student{" +
-//                "studentCode='" + studentCode + '\'' +
-//                ", password='" + password + '\'' +
-//                ", classCode='" + classCode + '\'' +
-//                ", fullName='" + fullName + '\'' +
-//                ", phone='" + phone + '\'' +
-//                ", birthday='" + birthday + '\'' +
-//                ", avt='" + avt + '\'' +
-//                ", bch=" + bch +
-//                ", bcs=" + bcs +
-//                ", ctv=" + ctv +
-//                ", gender=" + gender +
-//                ", notifications=" + notifications +
-//                '}';
-//    }
 }
