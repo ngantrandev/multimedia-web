@@ -16,21 +16,17 @@
 	crossorigin="anonymous">
 
 <style>
-
-
-
-.card-body button {
+.card-body .btn {
 	position: absolute;
-	top: 100%; left : 50%;
+	top: 100%;
+	left: 50%;
 	opacity: 0;
 	transform: translateX(-50%);
-
 }
 
-.card-body:hover button {
-transform: translateX(-50%) translateY(-100%);
+.card-body:hover .btn {
+	transform: translateX(-50%) translateY(-100%);
 	opacity: 1
-	
 }
 </style>
 </head>
@@ -39,17 +35,14 @@ transform: translateX(-50%) translateY(-100%);
 	<nav
 		class="container-lg navbar navbar-expand-sm bg-warning rounded-pill">
 		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Multimedia 
-
-			</a>
+			<a class="navbar-brand" href="#">Multimedia </a>
 			<button class="navbar-toggler" type="button"
 				data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
 				aria-controls="navbarNavDropdown" aria-expanded="false"
 				aria-label="Toggle navigation">
 				<span class="navbar-toggler-icon"></span>
 			</button>
-			<div class="collapse navbar-collapse "
-				id="navbarNavDropdown">
+			<div class="collapse navbar-collapse " id="navbarNavDropdown">
 				<ul class="navbar-nav">
 					<li class="nav-item"><a class="nav-link active"
 						aria-current="page" href="#">Trang chủ</a></li>
@@ -72,6 +65,61 @@ transform: translateX(-50%) translateY(-100%);
 
 	<div class="container-lg mt-5">
 
+		<div class="container-fluid d-flex justify-content-between">
+			<a href="anpham/insert.htm" class="btn btn-warning">Đăng ấn phẩm</a>
+			<a data-bs-toggle="offcanvas" data-bs-target="#offcanvasRight"
+				aria-controls="offcanvasRight"> <span
+				class="container position-relative"> <img
+					src="image/ic_cart.png" alt="" srcset=""
+					style="width: 30px; height: auto" /> <span id="cartSize"
+					class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-secondary">${orderSize}
+				</span>
+			</span>
+			</a>
+		</div>
+
+		<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
+			aria-labelledby="offcanvasRightLabel">
+			<div class="offcanvas-header">
+				<h5 class="offcanvas-title" id="offcanvasRightLabel">Giỏ hàng
+					right</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
+					aria-label="Close"></button>
+			</div>
+			<div class="offcanvas-body">
+				<div class="container">
+					<c:forEach var="u" items="${listOrder}">
+						<div class="row">
+							<div class="col-4">
+								<img
+									src="https://iblue.vn/uploads/news/2016_12/huong-dan-chup-hinh-quan-ao.jpg"
+									alt="hình" srcset="" style="width: 100px; height: auto" />
+							</div>
+							<div class="col-4">
+								<p>${u.anPham.tenAnPham}</p>
+								<p>${u.anPham.gia}vnđ</p>
+							</div>
+							<div class="col-4 d-flex justify-content-around">
+								<span><a href="cart/remove/${u.anPham.maAnPham}.htm"> <img
+										src="image/ic_minus.png" style="width: 20px; height: auto;"
+										alt="" srcset="">
+								</a></span> <span>${u.soLuong}</span> <span><a
+									href="cart/addtocart/${u.anPham.maAnPham}.htm"> <img
+										src="image/ic_plus.png" style="width: 20px; height: auto;"
+										alt="" srcset="">
+								</a></span>
+							</div>
+						</div>
+					</c:forEach>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	<div class="container-lg mt-5">
+
 		<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3">
 
 			<c:forEach var="u" items="${listAnPham}">
@@ -79,7 +127,9 @@ transform: translateX(-50%) translateY(-100%);
 					<div class="card" style="width: 18rem;">
 						<c:choose>
 							<c:when test="${not empty u.imgUrl}">
-								<img src="https://iblue.vn/uploads/news/2016_12/huong-dan-chup-hinh-quan-ao.jpg" class="card-image-top" alt="anh san pham">
+								<img
+									src="https://iblue.vn/uploads/news/2016_12/huong-dan-chup-hinh-quan-ao.jpg"
+									class="card-image-top" alt="anh san pham">
 							</c:when>
 							<c:otherwise>
 								<!-- Đường dẫn đến ảnh mặc định nếu u.imgUrl không hợp lệ -->
@@ -89,8 +139,10 @@ transform: translateX(-50%) translateY(-100%);
 						</c:choose>
 						<div class="card-body">
 							<h5 class="card-title">${u.tenAnPham}</h5>
-							<p class="card-text">${u.gia} vnđ</p>
-							<button class="btn btn-warning" type="submit">Chọn sản phẩm</button>
+							<p class="card-text text-danger">${u.gia}vnđ</p>
+
+							<a href="cart/addtocart/${u.maAnPham}.htm"
+								class="btn btn-warning">Add to cart</a>
 						</div>
 					</div>
 

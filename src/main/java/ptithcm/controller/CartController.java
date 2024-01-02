@@ -25,30 +25,88 @@ public class CartController {
 	public SessionFactory sessionFactory;
 
 	@Transactional
-	@RequestMapping(value = "cart/add/{maAnPham}.htm")
+	@RequestMapping(value = "addtocart/{maAnPham}.htm")
 	public String addToCart(ModelMap model, @PathVariable("maAnPham") String maAnPham) {
 
-		String mssv = "N20DCPT044";
+		String mssv = "N20DCPT009";
+
+		Student nguoiDat = getStudent(mssv);
+		AnPham anpham = getAnPham(maAnPham);
+
+		if (nguoiDat == null) {
+			return "redirect:/user/login.htm";
+		}
+		if (anpham == null) {
+			return "redirect:/anpham/show_list.htm";
+		}
 
 		Order order = getOrder(maAnPham, mssv);
 
-		if (order != null) {
-			model.addAttribute("order", order);
-			return "record/update";
-		} else {
+		if (order != null) { // da co trong cart
 
+			boolean isSuccess = updateProductCart(order.getId(), true);
+
+			System.out.print("tang so luong " + (isSuccess ? "thanh cong" : "that bai"));
+
+			return "redirect:/anpham/show_list.htm";
+
+		} else { // chua add to cart
 			Order newOrder = new Order();
+
 			newOrder.setSoLuong(1);
+			newOrder.setAnPham(anpham);
+			newOrder.setNguoiDat(nguoiDat);
+
+			boolean isSuccess = createOrder(newOrder);
+
+			System.out.print("add to cart " + (isSuccess ? "thanh cong" : "that bai"));
 
 		}
 
-		return "record/index";
+		return "redirect:/anpham/show_list.htm";
+	}
+
+	@Transactional
+	@RequestMapping(value = "remove/{maAnPham}.htm")
+	public String removeProduct(ModelMap model, @PathVariable("maAnPham") String maAnPham) {
+
+		String mssv = "N20DCPT009";
+
+		Student nguoiDat = getStudent(mssv);
+		AnPham anpham = getAnPham(maAnPham);
+
+		if (nguoiDat == null) {
+			return "redirect:/user/login.htm";
+		}
+		if (anpham == null) {
+			return "redirect:/anpham/show_list.htm";
+		}
+
+		Order order = getOrder(maAnPham, mssv);
+
+		if (order != null) { // da co trong cart
+
+			if (order.getSoLuong() > 1) { // so luong > 1 thi giam xuong
+				boolean isSuccess = updateProductCart(order.getId(), false);
+
+				System.out.print("giam so luong " + (isSuccess ? "thanh cong" : "that bai"));
+			} else {
+				boolean isSuccess = deleteOrder(order.getId());
+
+				System.out.print("xoa order " + (isSuccess ? "thanh cong" : "that bai"));
+			}
+
+			return "redirect:/anpham/show_list.htm";
+
+		}
+
+		return "redirect:/anpham/show_list.htm";
 	}
 
 	private Order getOrder(String maAnPham, String mssv) {
 		Session session = sessionFactory.openSession();
 		try {
-			String hql = "FROM Order WHERE id = :maAnPham AND mssv = :mssv";
+			String hql = "FROM Order WHERE maanpham = :maAnPham AND mssv = :mssv";
 			Query query = session.createQuery(hql);
 			query.setParameter("maAnPham", maAnPham);
 			query.setParameter("mssv", mssv);
@@ -90,7 +148,7 @@ public class CartController {
 		return null;
 	}
 
-	private AnPham getOrder(String maAnPham) {
+	private AnPham getAnPham(String maAnPham) {
 		Session session = sessionFactory.openSession();
 		try {
 			String hql = "FROM AnPham WHERE maanpham = :maAnPham";
@@ -120,7 +178,50 @@ public class CartController {
 			t.commit();
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			t.rollback();
+		} finally {
+			session.close();
+		}
+
+		return false;
+	}
+
+	// isIncrease = true => tang soluong, nguoc lai giam
+	private boolean updateProductCart(String targetOrderId, boolean isIncrease) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			Order updateOrder = (Order) session.get(Order.class, targetOrderId);
+
+			if (isIncrease) {
+				updateOrder.setSoLuong(updateOrder.getSoLuong() + 1);
+			} else {
+				updateOrder.setSoLuong(updateOrder.getSoLuong() - 1);
+			}
+
+			session.update(updateOrder);
+			t.commit();
+			return true;
+		} catch (Exception e) {
+			t.rollback();
+		} finally {
+			session.close();
+		}
+
+		return false;
+	}
+
+	private boolean deleteOrder(String targetOrderId) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.delete(session.load(Order.class, targetOrderId));
+			t.commit();
+			return true;
+		} catch (Exception e) {
+			t.rollback();
+			System.out.print(e.toString());
 		} finally {
 			session.close();
 		}
