@@ -35,12 +35,12 @@ public class Student {
     @Column(name = "gioitinh")
     private int gender;
 
-    @ManyToMany(cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "thongbao",
-            joinColumns = { @JoinColumn(name = "mssv") },
-            inverseJoinColumns = { @JoinColumn(name = "matb") }
-    )
+    @ManyToMany(mappedBy="students",cascade = { CascadeType.ALL })
+//    @JoinTable(
+//            name = "thongbao",
+//            joinColumns = { @JoinColumn(name = "mssv") },
+//            inverseJoinColumns = { @JoinColumn(name = "matb") }
+//    )
     private Collection<Notification> notifications;
 
     public Collection<Notification> getNotifications() {

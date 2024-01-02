@@ -33,7 +33,7 @@
 	
 	<bean id="envConfig" class="ptithcm.config.EnvConfig">
 		<property name="pathUploadFile" 
-			value="D:\LuyenTap\LuyenCode\O_Truong\ky7\laptrinhweb\do_an\multimedia_web\multimedia-web-git\multimedia-web\src\main\webapp\uploaded_file"/>
+			value="/Users/ldevmobile1710/eclipse-workspace/multimedia_web/multimedia_web/src/main/webapp/uploaded_file"/>
 	</bean>
 
 </beans>
