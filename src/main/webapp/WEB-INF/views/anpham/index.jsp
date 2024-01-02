@@ -81,13 +81,12 @@
 		<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasRight"
 			aria-labelledby="offcanvasRightLabel">
 			<div class="offcanvas-header">
-				<h5 class="offcanvas-title" id="offcanvasRightLabel">Giỏ hàng
-					right</h5>
+				<h5 class="offcanvas-title" id="offcanvasRightLabel">Giỏ hàng</h5>
 				<button type="button" class="btn-close" data-bs-dismiss="offcanvas"
 					aria-label="Close"></button>
 			</div>
-			<div class="offcanvas-body">
-				<div class="container">
+			<div class="offcanvas-body position-relative">
+				<div class="container mb-5">
 					<c:forEach var="u" items="${listOrder}">
 						<div class="row">
 							<div class="col-4">
@@ -111,7 +110,12 @@
 							</div>
 						</div>
 					</c:forEach>
+					
 
+				</div>
+
+				<div class="position-absolute top-50 start-50">
+					<a href="cart/dat_hang.htm" class="btn btn-warning">Đặt hàng</a>
 				</div>
 
 			</div>
