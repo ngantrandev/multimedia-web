@@ -3,6 +3,7 @@ package ptithcm.entity;
 import javax.persistence.*;
 import javax.print.attribute.standard.MediaSize;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 @Table(name = "ctthongbao")
@@ -35,9 +36,14 @@ public class Notification {
     @Column(name = "list_file_name")
     private String files;
 
-    @ManyToMany(mappedBy = "notifications")
+    @ManyToMany(targetEntity=Student.class,cascade = CascadeType.ALL)
+    @JoinTable(name = "thongbao", joinColumns = { @JoinColumn(name = "matb") },
+    inverseJoinColumns = { @JoinColumn(name = "mssv") })
     private Collection<Student> students;
 
+    @Transient
+    private List<String> fileArr;
+    
     public String getNotifyCode() {
         return notifyCode;
     }
@@ -48,6 +54,14 @@ public class Notification {
 
     public String getTitle() {
 		return title;
+	}
+
+	public List<String> getFileArr() {
+		return fileArr;
+	}
+
+	public void setFileArr(List<String> fileArr) {
+		this.fileArr = fileArr;
 	}
 
 	public void setTitle(String title) {
@@ -104,8 +118,7 @@ public class Notification {
 		this.poster = poster;
 	}
 
-	public Notification(String notifyCode, String content, String title, Student poster, String timeSent, String type,
-			String files, Collection<Student> students) {
+	public Notification(String notifyCode, String content, String title, Student poster, String timeSent, String type, String files,Collection<Student> students) {
 		super();
 		this.notifyCode = notifyCode;
 		this.content = content;
