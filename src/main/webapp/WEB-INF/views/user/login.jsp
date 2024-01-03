@@ -2,6 +2,7 @@
     pageEncoding="utf-8"%>
 <%@taglib uri = "http://www.springframework.org/tags/form" prefix ="form" %>
 <%@ taglib uri ="http://java.sun.com/jstl/core_rt" prefix = "c" %>  
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html>
 <html lang="vi">
 <head>
@@ -185,7 +186,7 @@
             <div id="group_birth_gender" class="col-10 m-auto p-2 inputgroup d-flex flex-row">
 			<div class=" inputgroup d-flex flex-column col-6 m-auto">
                 <label for="rgBirth" class="p-2">Ngày sinh</label>
-                <form:input path="birthday" id="rgBirth" name="rgBirth" class="col-12 p-2" placeholder="Nhập ngày sinh" type="date" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
+                <form:input path="birthday" id="rgBirth" name="rgBirth" pattern="dd/MM/yyyy" class="col-12 p-2" placeholder="Nhập ngày sinh" type="date" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
                 <form:errors path="birthday"/>
             </div>
             <div class="choose_group d-flex flex-column col-6 m-auto">

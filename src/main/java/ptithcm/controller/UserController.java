@@ -2,6 +2,9 @@ package ptithcm.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
@@ -103,6 +106,15 @@ public class UserController {
 			}
 			if(user.getBirthday().trim().length()<1) {
 				errors.rejectValue("birthday","user","vui lòng nhập ngày tháng năm sinh");
+			}
+			else if(user.getBirthday().trim().length()>1) {
+			SimpleDateFormat fromUser = new SimpleDateFormat("dd/MM/yyyy");
+			SimpleDateFormat myFormat = new SimpleDateFormat("yyyy-MM-dd");
+			Date date1 = new SimpleDateFormat("yyyy-MM-dd").parse(user.getBirthday());  
+			DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");  
+			String strDate = dateFormat.format(date1); 
+			user.setBirthday(strDate);
+			System.out.println(user.getBirthday()+" ngay sinh");
 			}
 			if(user.getClassCode().trim().length()<1) {
 				errors.rejectValue("classCode","user","vui lòng nhập lớp");
