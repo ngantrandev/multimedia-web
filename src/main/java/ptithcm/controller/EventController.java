@@ -57,40 +57,26 @@ public class EventController {
 	
 	@Transactional
 	@RequestMapping ("/event/create")
-	public void createNotification(ModelMap model,
+	public void createEvent(ModelMap model,
 			HttpServletRequest request
-			,@ModelAttribute("notification") NotificationForm notification,
+			,@ModelAttribute("event") EventForm event,
 			HttpServletResponse response
 		) {
 		try {
 			Date date = new Date();
 			long miliLong = Instant.now().toEpochMilli();
-		    String notiCode = String.valueOf(miliLong);
+		    String eventCode = String.valueOf(miliLong);
 		    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		    String time = sdf.format(new Date(miliLong));
-			System.out.println("title: "+notification.getTitle());
-			System.out.println("content: "+notification.getContent());
-			System.out.println("length files: "+notification.getFiles().length);
-			String fileName = "";
-			MultipartFile[] files = notification.getFiles();
-			for(int i=0;i<files.length;++i) {
-				System.out.println("size files: "+files[i].getSize());
-				if(files[i].getSize()==0) {
-					continue;
-				}
-				String[] arrEl = files[i].getOriginalFilename().split("\\.");
-				String ext = arrEl[arrEl.length-1];
-				String normalizedName = notiCode+"-"+i+"."+ext;
-				files[i].transferTo(new File(
-						envConfig.getPathUploadFile()+"/"+normalizedName));
-				fileName += normalizedName + " ";
-			}
-			fileName = fileName.trim();
+		    String[] arrEl = event.getFile().getOriginalFilename().split("\\.");
+			String ext = arrEl[arrEl.length-1];
+			String fileName = eventCode + "." + ext;
+			event.getFile().transferTo(new File(
+					envConfig.getPathUploadFile()+"/"+fileName));
 			Session session = sessionFactory.openSession();
 		    Transaction transaction = session.beginTransaction();
 		    Student poster = (Student) session.get(Student.class, "N20DCPT009");
-		    List<Student> studentsSent = session.createQuery("FROM Student WHERE malop = :classCode").setParameter("classCode", poster.getClassCode()).list();
-		    session.save(new Notification(notiCode,notification.getContent(),notification.getTitle(),poster,time,"docs",fileName,studentsSent));
+		    session.save(new Event(eventCode,event.getName(),event.getContent(),time,fileName,poster));
 		    transaction.commit();
 		    session.close();
 		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
@@ -101,7 +87,7 @@ public class EventController {
 	
 	@Transactional
 	@RequestMapping ("/event/update")
-	public void updateNotify(ModelMap model,
+	public void updateEvent(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("notification") NotificationFormUpdate notification,
 			HttpServletResponse response
@@ -137,7 +123,7 @@ public class EventController {
 	
 	@Transactional
 	@RequestMapping ("/event/delete")
-	public void deleteNotify(ModelMap model,
+	public void deleteEvent(ModelMap model,
 			HttpServletRequest request,
 			HttpServletResponse response
 		) {
@@ -156,7 +142,7 @@ public class EventController {
 	}
 	
 	@RequestMapping ("/event/show_form_update")
-	public String updateNotification(HttpServletRequest request,ModelMap model) {
+	public String updateEvent(HttpServletRequest request,ModelMap model) {
 		String code = request.getParameter("notificationCode");
 		String title = request.getParameter("title");
 		String content = request.getParameter("content");
@@ -167,7 +153,7 @@ public class EventController {
 	}
 	
 	@RequestMapping ("/event/show_form_create")
-	public String showFormCreatenNotification(ModelMap model) {
+	public String showFormCreatenEvent(ModelMap model) {
 		EventForm event = new EventForm();
 		model.addAttribute("event",event);
 		return "event/show_form_create";
