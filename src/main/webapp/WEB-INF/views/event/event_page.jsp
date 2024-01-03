@@ -180,7 +180,7 @@
 								method="POST" class="form-edit">
 								<input hidden name="eventCode"
 									value="${events.get(i).getEventCode()}" /> <input hidden
-									name="anme" value="${events.get(i).getName()}" /> <input hidden
+									name="name" value="${events.get(i).getName()}" /> <input hidden
 									name="content" value="${events.get(i).getContent()}" /> <input
 									hidden name="time" value="${events.get(i).getTime()}" />
 								<button type="submit" class="btn-edit">

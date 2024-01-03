@@ -33,6 +33,7 @@ import ptithcm.config.EnvConfig;
 import ptithcm.entity.Student;
 import ptithcm.entity.event.Event;
 import ptithcm.entity.event.EventForm;
+import ptithcm.entity.event.EventFormUpdate;
 import ptithcm.entity.notification.Notification;
 import ptithcm.entity.notification.NotificationForm;
 import ptithcm.entity.notification.NotificationFormUpdate;
@@ -89,30 +90,22 @@ public class EventController {
 	@RequestMapping ("/event/update")
 	public void updateEvent(ModelMap model,
 			HttpServletRequest request
-			,@ModelAttribute("notification") NotificationFormUpdate notification,
+			,@ModelAttribute("event") EventFormUpdate event,
 			HttpServletResponse response
 		) {
 		try {
 			String fileName = "";
-			MultipartFile[] files = notification.getFiles();
-			for(int i=0;i<files.length;++i) {
-				System.out.println("size files: "+files[i].getSize());
-				if(files[i].getSize()==0) {
-					continue;
-				}
-				String[] arrEl = files[i].getOriginalFilename().split("\\.");
+			String[] arrEl = event.getFile().getOriginalFilename().split("\\.");
+			if(arrEl.length>1) {
 				String ext = arrEl[arrEl.length-1];
-				String normalizedName = notification.getNotifiCode()+"-"+i+"."+ext;
-				files[i].transferTo(new File(
-						envConfig.getPathUploadFile()+"/"+normalizedName));
-				fileName += normalizedName + " ";
+				fileName = event.getEventCode() + "." + ext;
+				event.getFile().transferTo(new File(
+						envConfig.getPathUploadFile()+"/"+fileName));
 			}
-			fileName = fileName.trim();
 			Session session = sessionFactory.openSession();
 		    Transaction transaction = session.beginTransaction();
 		    Student poster = (Student) session.get(Student.class, "N20DCPT009");
-		    List<Student> studentsSent = session.createQuery("FROM Student WHERE malop = :classCode").setParameter("classCode", poster.getClassCode()).list();
-		    session.update(new Notification(notification.getNotifiCode(),notification.getContent(),notification.getTitle(),poster,notification.getTime(),"docs",fileName,studentsSent));
+		    session.update(new Event(event.getEventCode(),event.getName(),event.getContent(),event.getTime(),fileName,poster));
 		    transaction.commit();
 		    session.close();
 		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
@@ -128,10 +121,10 @@ public class EventController {
 			HttpServletResponse response
 		) {
 		try {
-			String code = request.getParameter("notificationCode");
+			String code = request.getParameter("eventCode");
 			Session session = sessionFactory.openSession();
 		    Transaction transaction = session.beginTransaction();
-		    Query query = session.createQuery("DELETE Notification WHERE matb = :matb").setParameter("matb", code);
+		    Query query = session.createQuery("DELETE Event WHERE masukien = :mask").setParameter("mask", code);
 		    query.executeUpdate();
 		    transaction.commit();
 		    session.close();
@@ -143,12 +136,12 @@ public class EventController {
 	
 	@RequestMapping ("/event/show_form_update")
 	public String updateEvent(HttpServletRequest request,ModelMap model) {
-		String code = request.getParameter("notificationCode");
-		String title = request.getParameter("title");
+		String code = request.getParameter("eventCode");
+		String name = request.getParameter("name");
 		String content = request.getParameter("content");
 		String time = request.getParameter("time");
-		NotificationFormUpdate noti = new NotificationFormUpdate(code,title,content,time);
-		model.addAttribute("notification",noti);
+		EventFormUpdate event = new EventFormUpdate(code,name,content,time);
+		model.addAttribute("event",event);
 		return "event/show_form_update";
 	}
 	

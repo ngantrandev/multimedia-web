@@ -100,22 +100,22 @@
 	    </div>
 	    <ul class="nav navbar-nav">
 	      <li><a href="#" style="font-weight:bold;color:white">Trang chủ</a></li>
-	      <li style="background-color:white"><a href="#" style="font-weight:bold;color:black">Thông báo</a></li>
-	      <li><a href="#" style="font-weight:bold;color:white">Sự kiện</a></li>
+	      <li><a href="#" style="font-weight:bold;color:white">Thông báo</a></li>
+	      <li style="background-color:white"><a href="#" style="font-weight:bold;color:black">Sự kiện</a></li>
 	      <li><a href="#" style="font-weight:bold;color:white">Cửa hàng</a></li>
 	    </ul>
 	  </div>
 	</nav>
 	<div id="container-header">
-		<h2 style="margin-left:24px" id="label-header">Sửa thông báo</h2>
+		<h2 style="margin-left:24px" id="label-header">Sửa sự kiện</h2>
 	</div>
-	<form:form class="web-form-container" action="/multimedia_web/notification/update.htm"
-		method="POST" enctype="multipart/form-data" modelAttribute="notification">
+	<form:form class="web-form-container" action="/multimedia_web/event/update.htm"
+		method="POST" enctype="multipart/form-data" modelAttribute="event">
 		<form:input path="time" type="hidden" />
-		<form:input path="notifiCode" type="hidden"/>
+		<form:input path="eventCode" type="hidden"/>
 	  <div class="form-group">
-	    <label class="label-input">Tiêu đề</label>
-	    <form:input path="title" type="text" class="form-control web-input-title" placeholder="Nhập tiêu đề"/>
+	    <label class="label-input">Tên sự kiện</label>
+	    <form:input path="name" type="text" class="form-control web-input-title" placeholder="Nhập tên"/>
 	  </div>
 	  <div class="form-group">
 	    <label class="label-input">Nội dung</label>
@@ -123,7 +123,7 @@
 	  </div>
 	  <div>
 		  <label class="label-input">Đính kèm file</label>
-		  <input multiple class="form-control form-control-lg" type="file" name="files">
+		  <input multiple class="form-control form-control-lg" type="file" name="file">
 	  </div>
 	  <a href="/multimedia_web/notification/show.htm" class="btn web-btn-back">Quay lại</a>
 	  <button type="submit" class="btn web-btn-send">Sửa</button>
