@@ -2,12 +2,15 @@ package ptithcm.controller;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
 import org.hibernate.Query;
+import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -79,4 +82,68 @@ public class UserController {
 		model.addAttribute("action","register");
 		return "user/login";
 	}
+	@RequestMapping(value="register",method=RequestMethod.POST)
+	public String UserRegisterPost(ModelMap model,@ModelAttribute("user")Student user,BindingResult errors) {
+		model.addAttribute("action","register");
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			if(user.getFullName().trim().length()<1) {
+				errors.rejectValue("fullName","user","vui lòng nhập họ và tên sinh viên");
+			}
+			if(user.getStudentCode().trim().length()<1) {
+				errors.rejectValue("studentCode","user","vui lòng nhập mã số sinh viên ");
+			}
+			System.out.println(user.getGender()+" gioi tinh");
+			if(user.getGender()!=0 && user.getGender()!=1) {
+				errors.rejectValue("gender","user","vui lòng chọn giới tính ");
+			}
+			if(user.getPassword().trim().length()<1) {
+				errors.rejectValue("password","user","vui lòng nhập mật khẩu ");
+			}
+			if(user.getBirthday().trim().length()<1) {
+				errors.rejectValue("birthday","user","vui lòng nhập ngày tháng năm sinh");
+			}
+			if(user.getClassCode().trim().length()<1) {
+				errors.rejectValue("classCode","user","vui lòng nhập lớp");
+			}
+			if(user.getPhone().trim().length()>=10&&user.getPhone().trim().length()<=11) {
+				int phone=0;
+				try {
+				phone=Integer.parseInt(user.getPhone().trim());
+				}catch(Exception ex) {}
+				if(phone<1) {
+					errors.rejectValue("phone","user","vui lòng nhập số điện thoại ");
+				}
+			}else {
+				errors.rejectValue("phone","user","vui lòng nhập số điện thoại ");
+			}
+			Query query = sessionFactory.getCurrentSession().createQuery("FROM Student WHERE mssv = :mssv or sdt = :phone");
+			query.setParameter("mssv", user.getStudentCode());
+			query.setParameter("phone",user.getPhone());
+			List<Student> students= query.list();
+			if(students.size()>0) {
+				if(students.get(0).getStudentCode().equals(user.getStudentCode())) {
+					errors.rejectValue("studentCode","user","mã số sinh viên đã tồn tại");
+				}
+				if(students.get(0).getPhone().equals(user.getPhone())) {
+					errors.rejectValue("phone","user","số điện thoại này đã được sử dụng");
+				}
+			}else {
+				user.setPassword(sha256(user.getPassword()));
+				session.save(user);
+				t.commit();
+				model.addAttribute("message","Thêm mới thành công");
+			}
+
+		}catch(Exception ex){
+			System.out.println(ex);
+			t.rollback();
+			model.addAttribute("message","Thêm mới thất bại");
+		}finally {
+			session.close();
+		}
+		return "user/login";
+	}
+	
 }

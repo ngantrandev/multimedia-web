@@ -3,7 +3,7 @@
 <%@taglib uri = "http://www.springframework.org/tags/form" prefix ="form" %>
 <%@ taglib uri ="http://java.sun.com/jstl/core_rt" prefix = "c" %>  
 <!DOCTYPE html>
-<html lang="en">
+<html lang="vi">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -147,35 +147,66 @@
    	 <c:if test="${action=='register'}">
     <form:form id="formregister" class="d-flex flex-column" action="" method="post" modelAttribute="user">
         <div id="bodycontainer_body" class="p-1 p-lg-4">
+			<div class="inputgroup d-flex flex-column">
+                <label for="rgfullname" class="p-2">Họ và tên</label>
+                <form:input path="fullName" id="rgfullname" name="rgfullname" class="col-10 p-2"  placeholder="Nhập tên" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
+                <form:errors path="fullName"/>
+            </div>
             <div class="inputgroup d-flex flex-column">
                 <label for="rgMSSV" class="p-2">Mã sinh viên</label>
-                <input id="rgMSSV" name="rgMSSV" class="col-10 p-2" placeholder="Nhập mã sinh viên" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
-                <p style="color: #FF0000; margin-left:10%;padding:5px 0px">Đây là thông báo lỗi </p>
+                <form:input path="studentCode" id="rgMSSV" name="rgMSSV" class="col-10 p-2" placeholder="Nhập mã sinh viên" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
+                <form:errors path="studentCode"/>
+            </div>
+            <div class="inputgroup d-flex flex-column">
+                <label for="rgclassCode" class="p-2">Lớp</label>
+                <form:input path="classCode" id="rgclassCode" name="rgclassCode" class="col-10 p-2"  placeholder="Nhập tên lớp" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
+                <form:errors path="classCode"/>
             </div>
             <div class="inputgroup d-flex flex-column">
                 <label for="rgPassword" class="p-2">Mật khẩu</label>
-                <input id="rgPassword" name="rgPassword" class="col-10 p-2" placeholder="Nhập mật khẩu" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
-                <p style="color: #FF0000; margin-left:10%;padding:5px 0px">Đây là thông báo lỗi </p>
+                    <div class="d-flex m-auto col-10 group-input_pass ">
+        			        <form:input path="password" id="rgPassword" name="rgPassword" class="col-10 p-2" type="password" placeholder="Nhập mật khẩu" style="margin:auto;border:none;"/>
+                                <span class="col-1 p-1 d-flex m-auto togglePassword" style="cursor: pointer">
+                    			   <i class="bi bi-eye-fill m-auto " id="togglePassword" ></i>
+		                	   </span>		
+					</div>
+                <form:errors path="password"/>
             </div>
-            <div class="inputgroup d-flex flex-column">
+           <!--  <div class="inputgroup d-flex flex-column">
                 <label for="rgPassword_again" class="p-2">Nhập lại mật khẩu</label>
-                <input id="rgPassword_again"name="rgPassword_again" class="col-10 p-2" placeholder="Nhập mật khẩu" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
+                <div class="d-flex m-auto col-10 group-input_pass ">
+                <input id="rgPassword_again"name="rgPassword_again" class="col-10 p-2" placeholder="Nhập mật khẩu"  type="password"  style="margin:auto;border:none;"/>
+                   <span class="col-1 p-1 d-flex m-auto togglePassword" style="cursor: pointer">
+                       <i class="bi bi-eye-fill m-auto " id="togglePassword" ></i>
+                   </span>
+                </div>
                 <p style="color: #FF0000; margin-left:10%;padding:5px 0px">Đây là thông báo lỗi </p>
+            </div> -->
+            <div id="group_birth_gender" class="col-10 m-auto p-2 inputgroup d-flex flex-row">
+			<div class=" inputgroup d-flex flex-column col-6 m-auto">
+                <label for="rgBirth" class="p-2">Ngày sinh</label>
+                <form:input path="birthday" id="rgBirth" name="rgBirth" class="col-12 p-2" placeholder="Nhập ngày sinh" type="date" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
+                <form:errors path="birthday"/>
+            </div>
+            <div class="choose_group d-flex flex-column col-6 m-auto">
+            	<label>Giới tính</label>
+            	<div class="d-flex flex-row p-2 col-12 ">
+            		<div class="form-check m-auto">
+					  <form:radiobutton  path="gender" class="form-check-input" name="gender" id="gender" value='0' />
+					  <label class="form-check-label" for="gender">Nam</label>
+					</div>
+					<div class="form-check m-auto">
+					  <form:radiobutton path="gender" class="form-check-input" name="gender" id="gender_1" value='1' />
+					  <label class="form-check-label" for="gender_1">Nữ</label>
+					</div>
+            	</div>
+            	<form:errors path="gender"/>
+            </div>
             </div>
             <div class="inputgroup d-flex flex-column">
                 <label for="rgPhone" class="p-2">Số Điện Thoại</label>
-                <div class="col-10 d-flex flex-row m-auto">
-                    <select name="rgPhone_Contry" class="col-2 py-2 " style="margin:auto;border-radius:10px;border-color:#F6911D;">
-                        <option>+84</option>
-                    </select>
-                    <input id="rgPhone" name="rgPhone" type="tel" pattern="[0-9]{3}-[0-9]{2}-[0-9]{3}"class="col-9 p-2" placeholder="Nhập số điện thoại" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
-                </div>
-                <p style="color: #FF0000; margin-left:10%;padding:5px 0px">Đây là thông báo lỗi </p>
-            </div>
-            <div class="inputgroup d-flex flex-column">
-                <label for="rgEmail" class="p-2">Email</label>
-                <input id="rgEmail" name="rgEmail" class="col-10 p-2" placeholder="Nhập địa chỉ Email" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
-                <p style="color: #FF0000; margin-left:10%;padding:5px 0px">Đây là thông báo lỗi </p>
+                    <form:input path="phone" id="rgPhone" name="rgPhone" type="tel" class="col-10 p-2"  placeholder="Nhập số điện thoại" style="margin:auto;border-radius:10px;border-color:#F6911D;"/>
+                   <form:errors path="phone"/>
             </div>
         </div>
         <div id="bodycontainer_footer" class="d-flex p-3" >
