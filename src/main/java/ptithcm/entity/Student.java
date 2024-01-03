@@ -4,8 +4,16 @@ import javax.persistence.*;
 
 import ptithcm.entity.event.Event;
 import ptithcm.entity.notification.Notification;
-
 import java.util.Collection;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "sinhvien")
@@ -24,7 +32,6 @@ public class Student {
 
     @Column(name = "sdt")
     private String phone;
-
     @Column(name = "ngaysinh")
     private String birthday;
 
