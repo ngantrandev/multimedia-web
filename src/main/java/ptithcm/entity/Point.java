@@ -2,62 +2,84 @@ package ptithcm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.IdClass;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
 @Table(name = "point")
-public class Point {
+@IdClass(PointId.class)
+public class Point  {
 	@Id
-    @Column(name = "mssv")
+	@Column(name = "mssv")
     private String studentCode;
-	@Column(name =" nh")
-	private int namhoc;
-	@Column(name="hk")
-	private int hocki;
+	@Id
+	@Column(name = "nh")
+	private int nh;
+	@Column(name = "hk")
+	private int hk;
+	@Id
 	@ManyToOne
 	@JoinColumn(name = "mamh")
 	private Subject subject;
-	@Column(name= "cc")
 	private float cc;
-	@Column(name="kt")
 	private float kt;
-	@Column(name ="th")
 	private float th;
-	@Column(name = "se")
 	private float se;
-	@Column(name = "thi")
 	private float thi;
 	
 	public Point() {
 		super();
 	}
+	
+	
+
+
 	public String getStudentCode() {
 		return studentCode;
 	}
 	public void setStudentCode(String studentCode) {
 		this.studentCode = studentCode;
 	}
-	public int getNamhoc() {
-		return namhoc;
-	}
-	public void setNamhoc(int namhoc) {
-		this.namhoc = namhoc;
-	}
-	public int getHocki() {
-		return hocki;
-	}
-	public void setHocki(int hocki) {
-		this.hocki = hocki;
-	}
+	
 	public Subject getSubject() {
 		return subject;
 	}
 	public void setSubject(Subject subject) {
 		this.subject = subject;
 	}
+	
+	public int getNh() {
+		return nh;
+	}
+
+
+
+
+	public void setNh(int nh) {
+		this.nh = nh;
+	}
+
+
+
+
+	public int getHk() {
+		return hk;
+	}
+
+
+
+
+	public void setHk(int hk) {
+		this.hk = hk;
+	}
+
+
+
+
 	public float getCc() {
 		return cc;
 	}
@@ -90,7 +112,7 @@ public class Point {
 	}
 	@Override
 	public String toString() {
-		return "Point [studentCode=" + studentCode + ", namhoc=" + namhoc + ", hocki=" + hocki + ", subject=" + subject
+		return "Point [studentCode=" + studentCode + ", namhoc=" + nh + ", hocki=" + hk + ", subject=" + subject
 				+ ", cc=" + cc + ", kt=" + kt + ", th=" + th + ", se=" + se + ", thi=" + thi + "]";
 	}
 	

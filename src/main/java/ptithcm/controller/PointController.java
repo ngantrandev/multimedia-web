@@ -1,5 +1,6 @@
 package ptithcm.controller;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -11,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import ptithcm.entity.Point;
 import ptithcm.entity.Student;
@@ -27,14 +27,19 @@ public class PointController {
 	@RequestMapping("")
 	public String showpoint(ModelMap model,HttpServletRequest request) {
 		HttpSession se = request.getSession();
-		Student user = (Student) se.getAttribute("student");
+//		Student user = (Student) se.getAttribute("student");
+		Student user = new Student();
+		user.setStudentCode("N20DCPT021");
 		System.out.println(user.getStudentCode());
-		List<Point> listpoint = sessionFactory.getCurrentSession().createQuery("FROM Point Where mssv=:mssv").setParameter("mssv",user.getStudentCode()).list();
+		List<Point> listpoint = sessionFactory.getCurrentSession().createQuery("FROM Point p WHERE p.studentCode=:mssv ORDER BY p.nh DESC ").setParameter("mssv", user.getStudentCode()).list();
 		if(listpoint.size()>0)
 		{
-			System.out.println(listpoint.get(0).toString());
+			for(int i=0;i<listpoint.size();i++) {
+			System.out.println(listpoint.get(i).toString());
+			}
 		}
-		
+		model.addAttribute("listpoint",listpoint);
 		return "point/index";
 	}
+
 }
