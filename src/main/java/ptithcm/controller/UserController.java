@@ -46,10 +46,10 @@ public class UserController {
 		return "user/login";
 	}
 	@RequestMapping(value ="login",method = RequestMethod.POST)
-	public String UserLoginPost(ModelMap model, @ModelAttribute("user")Student user,HttpSession session,BindingResult errors) {
+	public String UserLoginPost(ModelMap model, @ModelAttribute("user") Student user,HttpSession session,BindingResult errors) {
 		model.addAttribute("action","login");
 		try {
-			if(user.getPassword().trim().length()!=0 && user.getStudentCode().trim().length()!=0) {
+			if(user.getPassword().trim().length()!=0 && user.getStudentCode().toUpperCase().trim().length()!=0) {
 				Query query = sessionFactory.getCurrentSession().createQuery("FROM Student WHERE mssv = :mssv AND password = :password");
 				query.setParameter("mssv", user.getStudentCode());
 				String pass = sha256(user.getPassword());
