@@ -1,6 +1,10 @@
 package ptithcm.entity;
 
 import javax.persistence.*;
+
+import ptithcm.entity.event.Event;
+import ptithcm.entity.notification.Notification;
+
 import java.util.Collection;
 
 @Entity
@@ -34,16 +38,28 @@ public class Student {
 
     @Column(name = "gioitinh")
     private int gender;
+    
+    public Student() {
+		super();
+	}
+
+	@Transient
+    @OneToMany(mappedBy="poster",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+    private Collection<Event> eventsPosted;
 
     @ManyToMany(mappedBy="students",cascade = { CascadeType.ALL })
-//    @JoinTable(
-//            name = "thongbao",
-//            joinColumns = { @JoinColumn(name = "mssv") },
-//            inverseJoinColumns = { @JoinColumn(name = "matb") }
-//    )
     private Collection<Notification> notifications;
+    
+    
+    public Collection<Event> getEventsPosted() {
+		return eventsPosted;
+	}
 
-    public Collection<Notification> getNotifications() {
+	public void setEventsPosted(Collection<Event> eventsPosted) {
+		this.eventsPosted = eventsPosted;
+	}
+
+	public Collection<Notification> getNotifications() {
         return notifications;
     }
 
@@ -138,4 +154,23 @@ public class Student {
     public void setGender(int gender) {
         this.gender = gender;
     }
+
+	public Student(String studentCode, String password, String classCode, String fullName, String phone,
+			String birthday, String avt, int bch, int bcs, int ctv, int gender, Collection<Event> eventsPosted,
+			Collection<Notification> notifications) {
+		super();
+		this.studentCode = studentCode;
+		this.password = password;
+		this.classCode = classCode;
+		this.fullName = fullName;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.avt = avt;
+		this.bch = bch;
+		this.bcs = bcs;
+		this.ctv = ctv;
+		this.gender = gender;
+		this.eventsPosted = eventsPosted;
+		this.notifications = notifications;
+	}
 }

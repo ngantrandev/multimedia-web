@@ -1,4 +1,4 @@
-package ptithcm.entity;
+package ptithcm.entity.notification;
 
 import org.springframework.web.multipart.MultipartFile;
 

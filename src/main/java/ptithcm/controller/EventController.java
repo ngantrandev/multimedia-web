@@ -31,12 +31,14 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ptithcm.config.EnvConfig;
 import ptithcm.entity.Student;
+import ptithcm.entity.event.Event;
+import ptithcm.entity.event.EventForm;
 import ptithcm.entity.notification.Notification;
 import ptithcm.entity.notification.NotificationForm;
 import ptithcm.entity.notification.NotificationFormUpdate;
 
 @Controller
-public class NotificationController {
+public class EventController {
 	@Autowired
 	public SessionFactory sessionFactory;
 		
@@ -44,29 +46,17 @@ public class NotificationController {
 	EnvConfig envConfig;
 	
 	@Transactional
-	@RequestMapping ("/notification/show")
+	@RequestMapping ("/event/show")
 	public String showPage(ModelMap model) {
-		Student student = (Student) sessionFactory.getCurrentSession().createQuery("FROM Student WHERE mssv = :mssv").setParameter("mssv", "N20DCPT009").uniqueResult();
-		ArrayList<Notification> notifications = new ArrayList<>(student.getNotifications());
-		Collections.reverse(notifications);
-		for(int i=0;i<notifications.size();++i) {
-			notifications.get(i).setFileArr(new ArrayList<String>());
-			if(notifications.get(i).getFiles() != null) {
-				if(notifications.get(i).getFiles().trim().equals("")) continue;
-				String[] arr = notifications.get(i).getFiles().split(" ");
-				for(int j=0;j<arr.length;++j) {
-					notifications.get(i).getFileArr().add(arr[j]);
-				}
-				
-			}
-		}
-		model.addAttribute("notifications",notifications);
-		model.addAttribute("isBcs",true);
-		return "notification/notification_page";
+		List<Event> events = sessionFactory.getCurrentSession().createQuery("FROM Event").list();
+		Collections.reverse(events);
+		model.addAttribute("events",events);
+		model.addAttribute("isBch",true);
+		return "event/event_page";
 	}
 	
 	@Transactional
-	@RequestMapping ("/notification/create")
+	@RequestMapping ("/event/create")
 	public void createNotification(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("notification") NotificationForm notification,
@@ -103,14 +93,14 @@ public class NotificationController {
 		    session.save(new Notification(notiCode,notification.getContent(),notification.getTitle(),poster,time,"docs",fileName,studentsSent));
 		    transaction.commit();
 		    session.close();
-		    response.sendRedirect(request.getContextPath() + "/notification/show.htm");
+		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 	
 	@Transactional
-	@RequestMapping ("/notification/update")
+	@RequestMapping ("/event/update")
 	public void updateNotify(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("notification") NotificationFormUpdate notification,
@@ -139,14 +129,14 @@ public class NotificationController {
 		    session.update(new Notification(notification.getNotifiCode(),notification.getContent(),notification.getTitle(),poster,notification.getTime(),"docs",fileName,studentsSent));
 		    transaction.commit();
 		    session.close();
-		    response.sendRedirect(request.getContextPath() + "/notification/show.htm");
+		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 	
 	@Transactional
-	@RequestMapping ("/notification/delete")
+	@RequestMapping ("/event/delete")
 	public void deleteNotify(ModelMap model,
 			HttpServletRequest request,
 			HttpServletResponse response
@@ -159,13 +149,13 @@ public class NotificationController {
 		    query.executeUpdate();
 		    transaction.commit();
 		    session.close();
-		    response.sendRedirect(request.getContextPath() + "/notification/show.htm");
+		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
 		} catch (Exception e) {
 			System.out.println(e);
 		}
 	}
 	
-	@RequestMapping ("/notification/show_form_update")
+	@RequestMapping ("/event/show_form_update")
 	public String updateNotification(HttpServletRequest request,ModelMap model) {
 		String code = request.getParameter("notificationCode");
 		String title = request.getParameter("title");
@@ -173,13 +163,13 @@ public class NotificationController {
 		String time = request.getParameter("time");
 		NotificationFormUpdate noti = new NotificationFormUpdate(code,title,content,time);
 		model.addAttribute("notification",noti);
-		return "notification/show_form_update";
+		return "event/show_form_update";
 	}
 	
-	@RequestMapping ("/notification/show_form_create")
+	@RequestMapping ("/event/show_form_create")
 	public String showFormCreatenNotification(ModelMap model) {
-		NotificationForm noti = new NotificationForm();
-		model.addAttribute("notification",noti);
-		return "notification/show_form_create";
+		EventForm event = new EventForm();
+		model.addAttribute("event",event);
+		return "event/show_form_create";
 	}
 }

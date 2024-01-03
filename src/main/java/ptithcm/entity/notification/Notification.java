@@ -1,7 +1,9 @@
-package ptithcm.entity;
+package ptithcm.entity.notification;
 
 import javax.persistence.*;
-import javax.print.attribute.standard.MediaSize;
+
+import ptithcm.entity.Student;
+
 import java.util.Collection;
 import java.util.List;
 
