@@ -13,7 +13,7 @@ public class AuthorizeInterceptor extends HandlerInterceptorAdapter {
 			throws Exception {
 
 		HttpSession session = request.getSession();
-		if (session.getAttribute("user") == null) {
+		if (session.getAttribute("student") == null) {
 			response.sendRedirect(request.getContextPath() + "/user/login.htm");
 			return false;
 		}

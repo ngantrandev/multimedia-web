@@ -17,10 +17,12 @@
 	<mvc:interceptors>
 
 		<mvc:interceptor>
-			<mvc:mapping path="/user/logoff**" />
-			<mvc:mapping path="/user/change**" />
-			<mvc:mapping path="/user/edit**" />
-			<mvc:mapping path="/order/**" />
+			<mvc:mapping path="/notification/**" />
+			<mvc:mapping path="/event/**" />
+			<mvc:mapping path="/anpham/**" />
+			<mvc:mapping path="/cart/**" />
+			<mvc:mapping path="/home/**" />
+			<mvc:mapping path="/xemdiem/**" />
 			<bean class="ptithcm.interceptor.AuthorizeInterceptor" />
 		</mvc:interceptor>
 
