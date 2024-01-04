@@ -139,7 +139,7 @@
 	    <ul class="nav navbar-nav">
 	      <li><a href="#" style="font-weight:bold;color:white">Trang chủ</a></li>
 	      <li style="background-color:white"><a href="#" style="font-weight:bold;color:black">Thông báo</a></li>
-	      <li><a href="#" style="font-weight:bold;color:white">Sự kiện</a></li>
+	      <li><a href="/multimedia_web/event/show.htm" style="font-weight:bold;color:white">Sự kiện</a></li>
 	      <li><a href="#" style="font-weight:bold;color:white">Cửa hàng</a></li>
 	    </ul>
 	  </div>

@@ -30,10 +30,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ptithcm.config.EnvConfig;
-import ptithcm.entity.Notification;
-import ptithcm.entity.NotificationForm;
-import ptithcm.entity.NotificationFormUpdate;
 import ptithcm.entity.Student;
+import ptithcm.entity.notification.Notification;
+import ptithcm.entity.notification.NotificationForm;
+import ptithcm.entity.notification.NotificationFormUpdate;
 
 @Controller
 public class NotificationController {
