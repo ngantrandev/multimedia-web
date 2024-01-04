@@ -30,15 +30,15 @@ public class DonHang {
 	private int soLuong;
 	private String time;
 	private byte state;
-
-	public String getMaDonHang() {
+	
+	public int getMaDonHang() {
 		return maDonHang;
 	}
 
-	public void setMaDonHang(String maDonHang) {
+	public void setMaDonHang(int maDonHang) {
 		this.maDonHang = maDonHang;
 	}
-	
+
 	public Student getStudent() {
 		return student;
 	}
