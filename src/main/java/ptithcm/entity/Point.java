@@ -11,17 +11,16 @@ import javax.persistence.Table;
 
 @Entity
 @Table(name = "point")
-@IdClass(PointId.class)
 public class Point  {
 	@Id
+	@Column(name = "id")
+	private int id;
 	@Column(name = "mssv")
     private String studentCode;
-	@Id
 	@Column(name = "nh")
 	private int nh;
 	@Column(name = "hk")
 	private int hk;
-	@Id
 	@ManyToOne
 	@JoinColumn(name = "mamh")
 	private Subject subject;
