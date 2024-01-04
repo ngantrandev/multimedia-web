@@ -8,7 +8,9 @@
 <base href="${pageContext.servletContext.contextPath }/">
 <meta charset="utf-8" />
 <title>Kết quả</title>
-
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <link
 	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
 	rel="stylesheet"
@@ -28,39 +30,41 @@
 	transform: translateX(-50%) translateY(-100%);
 	opacity: 1
 }
+
+
+.topnav {
+	  overflow: hidden;
+	  border-style:solid;
+	  border-color: #F6911D;
+	  margin-bottom:24px;
+	  background-color: white;
+	}
+	
+	.topnav a {
+	  float: left;
+		color:#F6911D;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	  font-size: 17px;
+	}
+	
+	.topnav a.active {
+	  background-color: #F6911D;
+	  color: white;
+	}
 </style>
 </head>
 <body>
 
-	<nav
-		class="container-lg navbar navbar-expand-sm bg-warning rounded-pill">
-		<div class="container-fluid">
-			<a class="navbar-brand" href="#">Multimedia </a>
-			<button class="navbar-toggler" type="button"
-				data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
-				aria-controls="navbarNavDropdown" aria-expanded="false"
-				aria-label="Toggle navigation">
-				<span class="navbar-toggler-icon"></span>
-			</button>
-			<div class="collapse navbar-collapse " id="navbarNavDropdown">
-				<ul class="navbar-nav">
-					<li class="nav-item"><a class="nav-link active"
-						aria-current="page" href="#">Trang chủ</a></li>
-					<li class="nav-item"><a class="nav-link" href="#">Thông
-							tin</a></li>
-
-					<li class="nav-item dropdown"><a
-						class="nav-link dropdown-toggle" href="#" role="button"
-						data-bs-toggle="dropdown" aria-expanded="false"> N20DCPT044 </a>
-						<ul class="dropdown-menu">
-							<li><a class="dropdown-item" href="#">Thông tin cá nhân</a></li>
-							<li><a class="dropdown-item" href="#">Đơn hàng</a></li>
-							<li><a class="dropdown-item" href="#">Đăng xuất</a></li>
-						</ul></li>
-				</ul>
-			</div>
-		</div>
-	</nav>
+	<div class="topnav">
+	  <a href="/multimedia_web/home/index.htm">Thời khoá biểu</a>
+	  <a href="/multimedia_web/xemdiem.htm">Điểm số</a>
+	  <a href="/multimedia_web/notification/show.htm">Thông báo</a>
+	  <a href="/multimedia_web/event/show.htm">Sự kiện</a>
+	  <a class="active" href="/multimedia_web/anpham/show_list.htm">Cửa hàng</a>
+	  <a href="/multimedia_web/user/login.htm" style="right:24px;position:fixed;">Đăng xuất</a>
+	</div>
 
 
 	<div class="container-lg mt-5">

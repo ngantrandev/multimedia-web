@@ -138,25 +138,40 @@
 	width:100%;
 	height:50%;
 }
+
+
+.topnav {
+	  overflow: hidden;
+	  border-style:solid;
+	  border-color: #F6911D;
+	  margin-bottom:24px;
+	  background-color: white;
+	}
+	
+	.topnav a {
+	  float: left;
+		color:#F6911D;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	  font-size: 17px;
+	}
+	
+	.topnav a.active {
+	  background-color: #F6911D;
+	  color: white;
+	}
 </style>
 </head>
 <body>
-	<nav class="navbar navbar-default" style="background-color: #F6911D">
-		<div class="container-fluid">
-			<div class="navbar-header">
-				<a class="navbar-brand" href="#"> <img id="logo"
-					src="/multimedia_web/image/logo.png">
-				</a>
-			</div>
-			<ul class="nav navbar-nav">
-				<li><a href="#" style="font-weight: bold; color: white">Trang chủ</a></li>
-				<li><a href="/multimedia_web/notification/show.htm" style="font-weight: bold; color: white">Thông báo</a></li>
-				<li style="background-color: white"><a href="#"
-					style="font-weight: bold; color: black">Sự kiện</a></li>
-				<li><a href="#" style="font-weight: bold; color: white">Cửa hàng</a></li>
-			</ul>
-		</div>
-	</nav>
+	<div class="topnav">
+	  <a href="/multimedia_web/home/index.htm">Thời khoá biểu</a>
+	  <a href="/multimedia_web/xemdiem.htm">Điểm số</a>
+	  <a href="/multimedia_web/notification/show.htm">Thông báo</a>
+	  <a class="active" href="/multimedia_web/event/show.htm">Sự kiện</a>
+	  <a href="/multimedia_web/anpham/show_list.htm">Cửa hàng</a>
+	  <a href="/multimedia_web/user/login.htm" style="right:24px;position:fixed;">Đăng xuất</a>
+	</div>
 	<div id="container-header">
 		<h2 style="margin-left: 24px" id="label-header">Sự kiện</h2>
 		<c:choose>

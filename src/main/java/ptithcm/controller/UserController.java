@@ -7,6 +7,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.bind.DatatypeConverter;
 
@@ -15,6 +17,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.ModelMap;
@@ -46,7 +49,7 @@ public class UserController {
 		return "user/login";
 	}
 	@RequestMapping(value ="login",method = RequestMethod.POST)
-	public String UserLoginPost(ModelMap model, @ModelAttribute("user") Student user,HttpSession session,BindingResult errors) {
+	public String UserLoginPost(ModelMap model, @ModelAttribute("user") Student user,HttpSession session,BindingResult errors,HttpServletRequest request, HttpServletResponse response) {
 		model.addAttribute("action","login");
 		try {
 			if(user.getPassword().trim().length()!=0 && user.getStudentCode().toUpperCase().trim().length()!=0) {
@@ -73,7 +76,8 @@ public class UserController {
 				user = new Student();
 				model.addAttribute("user",user);
 				model.addAttribute("message", "Đăng nhập thành công");
-				return "home/index";
+				response.sendRedirect(request.getContextPath() + "/home/index.htm");
+				return "schedule/schedule_page";
 			}
 				
 		}catch(Exception ex) {	

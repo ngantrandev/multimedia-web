@@ -7,8 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Xem Điểm</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
     <!-- Jquery -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -61,15 +62,40 @@
     			word-spacing: 1rem;
     	}
 		
+.topnav {
+	  overflow: hidden;
+	  border-style:solid;
+	  border-color: #F6911D;
+	  margin-bottom:24px;
+	  background-color: white;
+	}
+	
+	.topnav a {
+	  float: left;
+		color:#F6911D;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	  font-size: 17px;
+	}
+	
+	.topnav a.active {
+	  background-color: #F6911D;
+	  color: white;
+	}
     </style>
 </head>
 <body>
+<div class="topnav">
+	  <a href="/multimedia_web/home/index.htm">Thời khoá biểu</a>
+	  <a class="active" href="/multimedia_web/xemdiem.htm">Điểm số</a>
+	  <a href="/multimedia_web/notification/show.htm">Thông báo</a>
+	  <a href="/multimedia_web/event/show.htm">Sự kiện</a>
+	  <a href="/multimedia_web/anpham/show_list.htm">Cửa hàng</a>
+	  <a href="/multimedia_web/user/login.htm" style="right:24px;position:fixed;">Đăng xuất</a>
+	</div>
 	<div class="container-lg mt-5 d-flex flex-column" >
 	<div class="m-auto">
-		<div id="containerButton_header" class=" d-flex justify-content-end my-2" >
-			<button id="btn_print" class="btn btn_chucnangphu mx-4 p-2"><i class="bi bi-printer-fill" style="color:#F6911D"></i> In</button>
-			<button id="btn_export_excel" class="btn btn_chucnangphu p-2" ><i class="bi bi-file-earmark-excel-fill" style="color:#F6911D"></i>Excel</button>
-		</div>
 		<div id="container_tableScore" class="col-10 mb-5">
 			<table class="m-auto">
 			<thead>

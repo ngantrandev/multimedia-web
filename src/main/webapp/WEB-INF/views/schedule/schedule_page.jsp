@@ -6,14 +6,11 @@
 <html>
 <head>
 <base href="${pageContext.servletContext.contextPath }/" />
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 <meta charset="utf-8" />
 <title>Thời khóa biểu</title>
-
-<link
-	href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN"
-	crossorigin="anonymous" />
 
 <style>
 .itemNotification {
@@ -132,9 +129,40 @@
 	width: 30px;
 	height: 30px;
 }
+
+
+.topnav {
+	  overflow: hidden;
+	  border-style:solid;
+	  border-color: #F6911D;
+	  margin-bottom:24px;
+	  background-color: white;
+	}
+	
+	.topnav a {
+	  float: left;
+		color:#F6911D;
+	  text-align: center;
+	  padding: 14px 16px;
+	  text-decoration: none;
+	  font-size: 17px;
+	}
+	
+	.topnav a.active {
+	  background-color: #F6911D;
+	  color: white;
+	}
 </style>
 </head>
 <body>
+		<div class="topnav">
+		  <a class="active" href="/multimedia_web/home/index.htm">Thời khoá biểu</a>
+		  <a href="/multimedia_web/xemdiem.htm">Điểm số</a>
+		  <a href="/multimedia_web/notification/show.htm">Thông báo</a>
+		  <a href="/multimedia_web/event/show.htm">Sự kiện</a>
+		  <a href="/multimedia_web/anpham/show_list.htm">Cửa hàng</a>
+		  <a href="/multimedia_web/user/login.htm" style="right:24px;position:fixed;">Đăng xuất</a>
+		</div>
 	<div class="container pt-5">
 		<h1 class="text-center">Thời khóa biểu tuần ${tuan}</h1>
 		<table class="table table-bordered" style="border-color: #f6911d">
