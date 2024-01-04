@@ -110,6 +110,7 @@
 	               <label for="lgMSSV" class="p-2">Otp</label>
 	               <input id="lgMSSV" name="otp" class="col-10 p-2" placeholder="Nhập otp" style="border-radius:10px;border-color:#F6911D;"/>
 	            </div>
+	            <div style="color:red">${message}</div>
 	    	</div>
 		    <div id="bodycontainer_footer" class="d-flex p-3" >
 		        <button class="col-4 p-2 btn" id="btn_submit"  type="submit">Xác nhận</button>
