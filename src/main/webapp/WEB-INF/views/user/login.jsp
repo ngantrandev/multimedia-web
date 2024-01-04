@@ -140,7 +140,7 @@
     </div>
     <p class="messerr">${message}</p>
     <div id="bodycontainer_footer" class="d-flex p-3" >
-        <a href="" class="col-4 p-2">Quên mật khẩu</a>
+        <a href="/multimedia_web/password/show_form_forgot.htm" class="col-4 p-2">Quên mật khẩu</a>
         <button class="col-4 p-2 btn" id="btn_submit"  type="submit">Đăng nhập</button>
     </div>
     </form:form >

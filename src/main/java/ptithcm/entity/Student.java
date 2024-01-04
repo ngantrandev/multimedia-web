@@ -49,6 +49,16 @@ public class Student {
     public Student() {
 		super();
 	}
+    
+    public String getOtp() {
+		return otp;
+	}
+
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	private String otp;
 
 	@Transient
     @OneToMany(mappedBy="poster",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
@@ -163,8 +173,8 @@ public class Student {
     }
 
 	public Student(String studentCode, String password, String classCode, String fullName, String phone,
-			String birthday, String avt, int bch, int bcs, int ctv, int gender, Collection<Event> eventsPosted,
-			Collection<Notification> notifications) {
+			String birthday, String avt, int bch, int bcs, int ctv, int gender, String otp,
+			Collection<Event> eventsPosted, Collection<Notification> notifications) {
 		super();
 		this.studentCode = studentCode;
 		this.password = password;
@@ -177,6 +187,7 @@ public class Student {
 		this.bcs = bcs;
 		this.ctv = ctv;
 		this.gender = gender;
+		this.otp = otp;
 		this.eventsPosted = eventsPosted;
 		this.notifications = notifications;
 	}
