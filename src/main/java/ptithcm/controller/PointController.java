@@ -27,9 +27,9 @@ public class PointController {
 	@RequestMapping("")
 	public String showpoint(ModelMap model,HttpServletRequest request) {
 		HttpSession se = request.getSession();
-//		Student user = (Student) se.getAttribute("student");
-		Student user = new Student();
-		user.setStudentCode("N20DCPT021");
+		Student user = (Student) se.getAttribute("student");
+//		Student user = new Student();
+//		user.setStudentCode("N20DCPT021");
 		System.out.println(user.getStudentCode());
 		List<Point> listpoint = sessionFactory.getCurrentSession().createQuery("FROM Point p WHERE p.studentCode=:mssv ORDER BY p.nh DESC ").setParameter("mssv", user.getStudentCode()).list();
 		if(listpoint.size()>0)
