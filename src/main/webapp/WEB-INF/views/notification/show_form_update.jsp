@@ -116,6 +116,7 @@
 	  <div class="form-group">
 	    <label class="label-input">Tiêu đề</label>
 	    <form:input path="title" type="text" class="form-control web-input-title" placeholder="Nhập tiêu đề"/>
+	    <form:errors path="title" style="color:red"/>
 	  </div>
 	  <div class="form-group">
 	    <label class="label-input">Nội dung</label>
