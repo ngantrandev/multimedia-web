@@ -1,12 +1,10 @@
 package ptithcm.controller;
 
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -32,7 +30,6 @@ import ptithcm.config.EnvConfig;
 import ptithcm.entity.AnPham;
 import ptithcm.entity.AnPhamForm;
 import ptithcm.entity.Order;
-import ptithcm.entity.Student;
 
 @Controller
 @RequestMapping("/anpham/")
