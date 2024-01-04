@@ -20,6 +20,8 @@ import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.multipart.MultipartFile;
@@ -63,21 +65,23 @@ public class NotificationController {
 	
 	@Transactional
 	@RequestMapping ("/notification/create")
-	public void createNotification(ModelMap model,
+	public String createNotification(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("notification") NotificationForm notification,
 			HttpServletResponse response,
-			HttpSession sessionClient
+			HttpSession sessionClient,
+			BindingResult errors
 		) {
 		try {
+			if(notification.getTitle() == null || notification.getTitle().length()==0) {
+				errors.rejectValue("title", "notification","Vui lòng nhập tiêu đề");
+				return "notification/show_form_create";
+			}
 			Date date = new Date();
 			long miliLong = Instant.now().toEpochMilli();
 		    String notiCode = String.valueOf(miliLong);
 		    SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
 		    String time = sdf.format(new Date(miliLong));
-			System.out.println("title: "+notification.getTitle());
-			System.out.println("content: "+notification.getContent());
-			System.out.println("length files: "+notification.getFiles().length);
 			String fileName = "";
 			MultipartFile[] files = notification.getFiles();
 			for(int i=0;i<files.length;++i) {
@@ -101,20 +105,26 @@ public class NotificationController {
 		    session.save(new Notification(notiCode,notification.getContent(),notification.getTitle(),poster,time,"docs",fileName,studentsSent));
 		    transaction.commit();
 		    session.close();
-		    response.sendRedirect(request.getContextPath() + "/notification/show.htm");
+		    return "notification/show";
 		} catch (Exception e) {
 			System.out.println(e);
+			return "notification/show_form_create";
 		}
 	}
 	
 	@Transactional
 	@RequestMapping ("/notification/update")
-	public void updateNotify(ModelMap model,
+	public String updateNotify(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("notification") NotificationFormUpdate notification,
-			HttpServletResponse response
+			HttpServletResponse response,
+			BindingResult errors
 		) {
 		try {
+			if(notification.getTitle() ==null || notification.getTitle().length()==0) {
+				errors.rejectValue("title", "notification","Vui lòng nhập tiêu đề");
+				return "notification/show_form_create";
+			}
 			String fileName = "";
 			MultipartFile[] files = notification.getFiles();
 			for(int i=0;i<files.length;++i) {
@@ -139,9 +149,10 @@ public class NotificationController {
 		    session.update(notificationInDb);
 		    transaction.commit();
 		    session.close();
-		    response.sendRedirect(request.getContextPath() + "/notification/show.htm");
+		    return "notification/show";
 		} catch (Exception e) {
 			System.out.println(e);
+			return "notification/show_form_create";
 		}
 	}
 	
