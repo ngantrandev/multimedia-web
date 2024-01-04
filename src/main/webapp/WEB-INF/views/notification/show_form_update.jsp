@@ -119,7 +119,7 @@
 	  </div>
 	  <div class="form-group">
 	    <label class="label-input">Nội dung</label>
-	    <form:input path="content" class="form-control web-input-content" placeholder="Nhập nội dung" rows="10"></form:input>
+	    <form:textarea rows="10" path="content" class="form-control web-input-content" placeholder="Nhập nội dung"/>
 	  </div>
 	  <div>
 		  <label class="label-input">Đính kèm file</label>
