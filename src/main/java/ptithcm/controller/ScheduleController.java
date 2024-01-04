@@ -104,7 +104,7 @@ public class ScheduleController {
 
 					if (schedule.isHocTuan(tuan)) {
 						ScheduleDay scheduleDay = new ScheduleDay(schedule.getMonhoc(), schedule.getThu(),
-								schedule.getBuoi());
+								schedule.getBuoi(), schedule.getTengv(), schedule.getThoigian());
 						listTkbTuan.add(scheduleDay);
 					}
 				}

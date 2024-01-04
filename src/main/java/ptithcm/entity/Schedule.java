@@ -21,8 +21,28 @@ public class Schedule {
 	private String tuanhoc;
 	private String thu; // ngay hoc trong tuan
 	private String buoi; // sang || chieu
+	private String tengv;
+	private String thoigian;
 	
 	
+	
+	
+
+	public String getTengv() {
+		return tengv;
+	}
+
+	public void setTengv(String tengv) {
+		this.tengv = tengv;
+	}
+
+	public String getThoigian() {
+		return thoigian;
+	}
+
+	public void setThoigian(String thoigian) {
+		this.thoigian = thoigian;
+	}
 
 	public int getId() {
 		return id;

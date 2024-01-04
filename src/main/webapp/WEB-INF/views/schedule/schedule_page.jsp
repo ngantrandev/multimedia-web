@@ -140,37 +140,47 @@
 		<table class="table table-bordered" style="border-color: #f6911d">
 			<thead>
 				<tr>
-					<th scope="col" style="width: 10%" class=""><a
+					<th scope="col" style="width: 10%;" class=""><a
 						href="home/tkb/${tuan- 1}.htm"
 						class="btn d-flex align-items-center text-center"
-						style="background-color: #f79e38"> Tuần trước </a></th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 2</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 3</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 4</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 5</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 6</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 7</th>
+						style="background-color: #f79e38; color: white"> Tuần trước </a></th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 2</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 3</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 4</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 5</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 6</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 7</th>
 					<th scope="col" style="width: 10%"><a
 						href="home/tkb/${tuan + 1}.htm"
 						class="btn d-flex align-items-center text-center"
-						style="background-color: #f79e38"> Tuần sau </a></th>
+						style="background-color: #f79e38; color: white"> Tuần sau </a></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<th scope="row" style="height: 200px">Sáng</th>
+					<th scope="row" style="height: 200px;">Sáng</th>
 
 					<c:forEach var="thu" begin="2" end="8">
 						<td><c:forEach var="scheduleDay" items="${listTkbTuan}">
 								<c:if
 									test="${scheduleDay.thu eq thu and scheduleDay.buoi eq '0'}">
 									<c:out value="${scheduleDay.monhoc.tenmh}" />
+									<br>
+									<c:out value="Giảng viên: ${scheduleDay.tengv}" />
+									<br>
+									<c:out value="Thời gian: ${scheduleDay.thoigian}" />
 									<div
 										style="width: 100%; height: 1px; background-color: #f6911d;"></div>
 								</c:if>
@@ -190,7 +200,7 @@
 					</c:forEach>
 				</tr>
 
-		
+
 			</tbody>
 		</table>
 	</div>
