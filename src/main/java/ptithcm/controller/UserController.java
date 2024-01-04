@@ -144,7 +144,8 @@ public class UserController {
 				if(students.get(0).getPhone().equals(user.getPhone())) {
 					errors.rejectValue("phone","user","số điện thoại này đã được sử dụng");
 				}
-			}else {
+			}
+			if(!errors.hasErrors()) {
 				user.setPassword(sha256(user.getPassword()));
 				session.save(user);
 				t.commit();

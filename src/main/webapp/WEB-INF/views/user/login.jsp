@@ -120,7 +120,7 @@
         	</c:if>
         </div>
      <c:if test="${action=='login'}">
-    <form:form id="formlogin" class="d-flex flex-column" action="" method="post" modelAttribute="user">
+    <form:form id="formlogin" class="d-flex flex-column" action="user/login.htm" method="post" modelAttribute="user">
         <div id="bodycontainer_body" class="p-1 p-lg-4">
             <div class="inputgroup d-flex flex-column">
                <label for="lgMSSV" class="p-2">Mã sinh viên</label>
