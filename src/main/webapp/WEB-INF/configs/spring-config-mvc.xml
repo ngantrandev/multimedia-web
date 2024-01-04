@@ -22,6 +22,9 @@
 	<bean id="viewResolver" 
 		p:prefix="/WEB-INF/views/" p:suffix=".jsp"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"/>
+		
+	<!-- Cấu hình để đọc ảnh từ thư mục static_images -->
+    <mvc:resources mapping="/static_images/**" location="/WEB-INF/static_images/"/>
    	
    	<!-- Cấu hình package chứa các controller -->
 	<context:component-scan base-package="ptithcm.controller"/>
@@ -30,10 +33,10 @@
 		<property name="maxUploadSize" value="209712520"/>
 	</bean>
 	
-	
-	<!--<bean id="envConfig" class="ptithcm.config.EnvConfig">
+	<!--  VALUE TÙY THUỘC VÀO TỪNG MÁY VÀ TỪNG NƠI LƯU PROJECT -->
+	<bean id="envConfig" class="ptithcm.config.EnvConfig">
 		<property name="pathUploadFile" 
-			value="D:\LuyenTap\LuyenCode\O_Truong\ky7\laptrinhweb\do_an\multimedia_web\multimedia-web-git\multimedia-web\src\main\webapp\uploaded_file"/>
-	</bean> -->
+			value="D:\LuyenTap\LuyenCode\O_Truong\ky7\laptrinhweb\multimedia_web\multimedia-web\src\main\webapp\uploaded_file"/>
+	</bean>
 
 </beans>

@@ -7,17 +7,17 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import ptithcm.entity.;
+import ptithcm.entity.AnPham;
 
 @Entity
 @Table(name = "giohang")
 public class Order {
 	@Id
 	@GeneratedValue
-	private String id;
-//	@ManyToOne
-//	@JoinColumn(name = "maanpham")
-//	private AnPham anPham;
+	private int id;
+	@ManyToOne
+	@JoinColumn(name = "maanpham")
+	private AnPham anPham;
 
 	@ManyToOne
 	@JoinColumn(name = "mssv")
@@ -26,11 +26,12 @@ public class Order {
 	@Column(name = "soluong")
 	private int soLuong;
 
-	public String getId() {
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

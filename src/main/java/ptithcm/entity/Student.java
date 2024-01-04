@@ -1,7 +1,19 @@
 package ptithcm.entity;
 
 import javax.persistence.*;
+
+import ptithcm.entity.event.Event;
+import ptithcm.entity.notification.Notification;
 import java.util.Collection;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.ManyToMany;
+import javax.persistence.Table;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 @Entity
 @Table(name = "sinhvien")
@@ -20,7 +32,6 @@ public class Student {
 
     @Column(name = "sdt")
     private String phone;
-
     @Column(name = "ngaysinh")
     private String birthday;
 
@@ -34,16 +45,38 @@ public class Student {
 
     @Column(name = "gioitinh")
     private int gender;
+    
+    public Student() {
+		super();
+	}
+    
+    public String getOtp() {
+		return otp;
+	}
 
-    @ManyToMany(cascade = { CascadeType.ALL },fetch = FetchType.EAGER)
-    @JoinTable(
-            name = "thongbao",
-            joinColumns = { @JoinColumn(name = "mssv") },
-            inverseJoinColumns = { @JoinColumn(name = "matb") }
-    )
+	public void setOtp(String otp) {
+		this.otp = otp;
+	}
+
+	private String otp;
+
+	@Transient
+    @OneToMany(mappedBy="poster",fetch=FetchType.EAGER,cascade=CascadeType.ALL)
+    private Collection<Event> eventsPosted;
+
+    @ManyToMany(mappedBy="students",cascade = { CascadeType.ALL })
     private Collection<Notification> notifications;
+    
+    
+    public Collection<Event> getEventsPosted() {
+		return eventsPosted;
+	}
 
-    public Collection<Notification> getNotifications() {
+	public void setEventsPosted(Collection<Event> eventsPosted) {
+		this.eventsPosted = eventsPosted;
+	}
+
+	public Collection<Notification> getNotifications() {
         return notifications;
     }
 
@@ -138,4 +171,24 @@ public class Student {
     public void setGender(int gender) {
         this.gender = gender;
     }
+
+	public Student(String studentCode, String password, String classCode, String fullName, String phone,
+			String birthday, String avt, int bch, int bcs, int ctv, int gender, String otp,
+			Collection<Event> eventsPosted, Collection<Notification> notifications) {
+		super();
+		this.studentCode = studentCode;
+		this.password = password;
+		this.classCode = classCode;
+		this.fullName = fullName;
+		this.phone = phone;
+		this.birthday = birthday;
+		this.avt = avt;
+		this.bch = bch;
+		this.bcs = bcs;
+		this.ctv = ctv;
+		this.gender = gender;
+		this.otp = otp;
+		this.eventsPosted = eventsPosted;
+		this.notifications = notifications;
+	}
 }

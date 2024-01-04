@@ -2,6 +2,7 @@ package ptithcm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -11,7 +12,8 @@ public class AnPham {
 	
 	@Id
 	@Column(name="maanpham")
-	private String maAnPham;
+	@GeneratedValue
+	private int maAnPham;
 	
 	private String mssv;
 	
@@ -26,10 +28,11 @@ public class AnPham {
 	private String moTa;
 	@Column(name="hinhanh")
 	private String imgUrl;
-	public String getMaAnPham() {
+	
+	public int getMaAnPham() {
 		return maAnPham;
 	}
-	public void setMaAnPham(String maAnPham) {
+	public void setMaAnPham(int maAnPham) {
 		this.maAnPham = maAnPham;
 	}
 	public String getMssv() {
@@ -68,6 +71,22 @@ public class AnPham {
 	public void setImgUrl(String imgUrl) {
 		this.imgUrl = imgUrl;
 	}
+	public AnPham(int maAnPham, String mssv, String tenAnPham, String gia, int soLuongTon, String moTa, String imgUrl) {
+		super();
+		this.maAnPham = maAnPham;
+		this.mssv = mssv;
+		this.tenAnPham = tenAnPham;
+		this.gia = gia;
+		this.soLuongTon = soLuongTon;
+		this.moTa = moTa;
+		this.imgUrl = imgUrl;
+	}
+	public AnPham() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+	
+	
 	
 	
 	
