@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -26,21 +27,22 @@ import ptithcm.entity.Student;
 public class CartController {
 	@Autowired
 	public SessionFactory sessionFactory;
-	String mssv = "N20DCPT009";
-	
 
 	@Transactional
 	@RequestMapping(value = "addtocart/{maAnPham}.htm")
-	public String addToCart(ModelMap model, @PathVariable("maAnPham") String maAnPham) {
+	public String addToCart(ModelMap model, @PathVariable("maAnPham") String maAnPham, HttpSession sessionClient) {
 
-		
+		String mssv = "";
+		Student studentClient = (Student) sessionClient.getAttribute("student");
 
-		Student nguoiDat = getStudent(mssv);
-		AnPham anpham = getAnPham(maAnPham);
-
-		if (nguoiDat == null) {
+		if (studentClient == null) {
 			return "redirect:/user/login.htm";
 		}
+
+		mssv = studentClient.getStudentCode();
+
+		AnPham anpham = getAnPham(maAnPham);
+
 		if (anpham == null) {
 			return "redirect:/anpham/show_list.htm";
 		}
@@ -60,7 +62,7 @@ public class CartController {
 
 			newOrder.setSoLuong(1);
 			newOrder.setAnPham(anpham);
-			newOrder.setNguoiDat(nguoiDat);
+			newOrder.setNguoiDat(studentClient);
 
 			boolean isSuccess = createOrder(newOrder);
 
@@ -73,21 +75,20 @@ public class CartController {
 
 	@Transactional
 	@RequestMapping(value = "remove/{maAnPham}.htm")
-	public String removeProduct(ModelMap model, @PathVariable("maAnPham") String maAnPham) {
+	public String removeProductCart(ModelMap model, @PathVariable("maAnPham") String maAnPham, HttpSession sessionClient) {
 
-	
-
-		Student nguoiDat = getStudent(mssv);
+		 Student studentClient = (Student) sessionClient.getAttribute("student");
+		
 		AnPham anpham = getAnPham(maAnPham);
 
-		if (nguoiDat == null) {
+		if (studentClient == null) {
 			return "redirect:/user/login.htm";
 		}
 		if (anpham == null) {
 			return "redirect:/anpham/show_list.htm";
 		}
 
-		Order order = getOrder(maAnPham, mssv);
+		Order order = getOrder(maAnPham, studentClient.getStudentCode());
 
 		if (order != null) { // da co trong cart
 
@@ -110,17 +111,20 @@ public class CartController {
 
 	@Transactional
 	@RequestMapping("dat_hang")
-	public String onPressThanhToan(ModelMap model) {
+	public String onPressThanhToan(ModelMap model, HttpSession sessionClient) {
+		
+		 Student studentClient = (Student) sessionClient.getAttribute("student");
+		 
+		 if(studentClient==null) {
+			 return "redirect:/user/login.htm";
+		 }
 
-		Student nguoiDat = getStudent(mssv);
-		List<Order> listOrder = getListOrder(mssv);
+		List<Order> listOrder = getListOrder(studentClient.getStudentCode());
 
-		if (nguoiDat == null) {
-			return "redirect:/user/login.htm";
-		}
+		
 
 		if (listOrder != null && listOrder.size() > 0) {
-			boolean isSuccess = datHang(listOrder, mssv);
+			boolean isSuccess = datHang(listOrder, studentClient.getStudentCode());
 
 			System.out.print("dat hang " + (isSuccess ? "thanh cong" : "that bai"));
 
@@ -147,7 +151,7 @@ public class CartController {
 
 	// clear list order of user
 	private boolean clearOrder(String mssv) {
-	
+
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
 
@@ -173,7 +177,6 @@ public class CartController {
 
 	private boolean createListDonHang(List<Order> listOrder) {
 		// TODO Auto-generated method stub
-	
 
 		Session session = sessionFactory.openSession();
 		Transaction t = session.beginTransaction();
@@ -190,7 +193,7 @@ public class CartController {
 				donHang.setState((byte) 0);
 
 				session.save(donHang);
-				
+
 			}
 
 			t.commit();
@@ -198,9 +201,9 @@ public class CartController {
 		} catch (Exception e) {
 			t.rollback();
 			e.printStackTrace();
-			
+
 		} finally {
-			session.close();	
+			session.close();
 		}
 
 		return false;

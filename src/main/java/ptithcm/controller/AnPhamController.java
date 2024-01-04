@@ -11,6 +11,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -30,8 +31,6 @@ import org.springframework.web.multipart.MultipartFile;
 import ptithcm.config.EnvConfig;
 import ptithcm.entity.AnPham;
 import ptithcm.entity.AnPhamForm;
-import ptithcm.entity.Notification;
-import ptithcm.entity.NotificationForm;
 import ptithcm.entity.Order;
 import ptithcm.entity.Student;
 
@@ -39,7 +38,7 @@ import ptithcm.entity.Student;
 @RequestMapping("/anpham/")
 public class AnPhamController {
 
-	String mssv = "N20DCPT009";
+//	String mssv = "N20DCPT009";
 
 	@Autowired
 	public SessionFactory sessionFactory;
@@ -49,9 +48,21 @@ public class AnPhamController {
 
 	@Transactional
 	@RequestMapping("/show_list")
-	public String showForm(ModelMap model, HttpServletRequest request) {
+	public String showForm(ModelMap model, HttpServletRequest request, HttpSession sessionClient) {
 
 		List<AnPham> listAnPham = sessionFactory.getCurrentSession().createQuery("FROM AnPham").list();
+
+		Student studentClient = (Student) sessionClient.getAttribute("student");
+
+		String mssv = "";// khai bao mssv
+
+		// check neu co thong tin
+		if (studentClient != null) {
+			mssv = studentClient.getStudentCode();
+		}
+
+		System.out.println("mssv: " + mssv);
+
 		List<Order> listOrder = getListOrder(mssv);
 
 		model.addAttribute("listAnPham", listAnPham);
@@ -72,9 +83,16 @@ public class AnPhamController {
 	@Transactional
 	@RequestMapping("/my_product")
 	// get my list product
-	public String showMyProduct(ModelMap model, HttpServletRequest request) {
+	public String showMyProduct(ModelMap model, HttpServletRequest request, HttpSession sessionClient) {
 
-		String mssv = "N20DCPT009";
+		Student studentClient = (Student) sessionClient.getAttribute("student");
+		String mssv = "";
+
+		if (studentClient != null) {
+			mssv = studentClient.getStudentCode();
+		}
+
+		System.out.println("mssv: " + mssv);
 
 		List<AnPham> listAnPham = getListAnPham(mssv);
 
@@ -123,7 +141,8 @@ public class AnPhamController {
 	@Transactional
 	@RequestMapping(value = "/my_product/create", method = RequestMethod.POST)
 	public String createNewProduct(ModelMap model, HttpServletRequest request,
-			@ModelAttribute("anPhamForm") AnPhamForm anPhamForm, HttpServletResponse response, BindingResult errors) {
+			@ModelAttribute("anPhamForm") AnPhamForm anPhamForm, HttpServletResponse response, BindingResult errors,
+			HttpSession sessionClient) {
 
 		if (anPhamForm.getTen().length() == 0) {
 			errors.rejectValue("ten", "anPhamForm", "Vui lòng nhập tên ấn phẩm!");
@@ -185,14 +204,20 @@ public class AnPhamController {
 				fileName = normalizedName;
 				fileName = fileName.trim();
 
-				AnPham newAnPham = new AnPham(); //
-				newAnPham.setMssv(mssv); //
-				newAnPham.setTenAnPham(anPhamForm.getTen());
-				newAnPham.setGia(anPhamForm.getGia());
-				newAnPham.setSoLuongTon(Integer.parseInt(anPhamForm.getSoLuongTon()));
-				newAnPham.setMoTa(anPhamForm.getMoTa());
-				newAnPham.setImgUrl("uploaded_file/" + normalizedName);
-				isSuccess = createAnPham(newAnPham);
+				String mssv = "";
+				Student studentClient = (Student) sessionClient.getAttribute("student");
+				if (studentClient != null) {
+					mssv = studentClient.getStudentCode();
+
+					AnPham newAnPham = new AnPham(); //
+					newAnPham.setMssv(mssv); //
+					newAnPham.setTenAnPham(anPhamForm.getTen());
+					newAnPham.setGia(anPhamForm.getGia());
+					newAnPham.setSoLuongTon(Integer.parseInt(anPhamForm.getSoLuongTon()));
+					newAnPham.setMoTa(anPhamForm.getMoTa());
+					newAnPham.setImgUrl("uploaded_file/" + normalizedName);
+					isSuccess = createAnPham(newAnPham);
+				}
 
 			}
 			model.addAttribute("message", isSuccess ? "Đăng ấn phẩm thành công!" : "Đăng ấn phẩm thất bại");
@@ -227,7 +252,7 @@ public class AnPhamController {
 	@RequestMapping(value = "/my_product/edit/{maAnPham}.htm", method = RequestMethod.POST)
 	public String editProduct(ModelMap model, HttpServletRequest request,
 			@ModelAttribute("anPhamForm") AnPhamForm anPhamForm, @PathVariable("maAnPham") String maAnPham,
-			HttpServletResponse response, BindingResult errors) {
+			HttpServletResponse response, BindingResult errors, HttpSession sessionClient) {
 
 		if (anPhamForm.getTen().length() == 0) {
 			errors.rejectValue("ten", "anpham", "Vui lòng nhập tên ấn phẩm!");
@@ -271,6 +296,13 @@ public class AnPhamController {
 		}
 
 		AnPham currAnPham = getAnPham(maAnPham);
+
+		String mssv = "";
+		Student studentClient = (Student) sessionClient.getAttribute("student");
+		System.out.println("mssv: " + mssv);
+		if (studentClient != null) {
+			mssv = studentClient.getStudentCode();
+		}
 
 		AnPham newAnPham = new AnPham(); //
 		newAnPham.setMaAnPham(Integer.parseInt(maAnPham));
@@ -345,7 +377,7 @@ public class AnPhamController {
 		Transaction t = session.beginTransaction();
 		try {
 			AnPham updateAnPham = (AnPham) session.get(AnPham.class, anpham.getMaAnPham());
-			
+
 			System.out.println(updateAnPham);
 
 			updateAnPham.setTenAnPham(anpham.getTenAnPham());
@@ -353,7 +385,6 @@ public class AnPhamController {
 			updateAnPham.setSoLuongTon(anpham.getSoLuongTon());
 			updateAnPham.setMoTa(anpham.getMoTa());
 			updateAnPham.setImgUrl(anpham.getImgUrl());
-			
 
 			session.update(updateAnPham);
 			t.commit();
