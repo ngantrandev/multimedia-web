@@ -50,7 +50,7 @@ public class ForgetPasswordController {
 	
 	@Transactional
 	@RequestMapping ("/password/authOtp")
-	public void authOtp(ModelMap model,HttpServletRequest request,HttpServletResponse response,HttpSession sessionClient) {
+	public String authOtp(ModelMap model,HttpServletRequest request,HttpServletResponse response,HttpSession sessionClient) {
 		try {
 			String otpGot = request.getParameter("otp");
 			Session session = sessionFactory.openSession();
@@ -62,14 +62,16 @@ public class ForgetPasswordController {
 		    	session.update(studentDb);
 			    transaction.commit();
 			    session.close();
-			    response.sendRedirect(request.getContextPath() + "/password/show_form_reset_pass.htm");
+			    return "password/show_form_reset_pass";
 		    } else {
 		    	model.addAttribute("message","Sai otp");
-		    	response.sendRedirect(request.getContextPath() + "/password/show_form_otp.htm");
+		    	return "password/show_form_otp";
 		    }
-		} catch (IOException e) {
+		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+			model.addAttribute("message","Có lỗi xảy ");
+			return "password/show_form_otp";
 		}
 	}
 	
