@@ -24,6 +24,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -59,13 +60,18 @@ public class EventController {
 	
 	@Transactional
 	@RequestMapping ("/event/create")
-	public void createEvent(ModelMap model,
+	public String createEvent(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("event") EventForm event,
 			HttpServletResponse response,
-			HttpSession sessionClient
+			HttpSession sessionClient,
+			BindingResult errors
 		) {
 		try {
+			if(event.getName() == null || event.getName().length()==0) {
+				errors.rejectValue("name", "event","Vui lòng nhập tên");
+				return "event/show_create_form";
+			}
 			Date date = new Date();
 			long miliLong = Instant.now().toEpochMilli();
 		    String eventCode = String.valueOf(miliLong);
@@ -83,20 +89,26 @@ public class EventController {
 		    session.save(new Event(eventCode,event.getName(),event.getContent(),time,fileName,poster));
 		    transaction.commit();
 		    session.close();
-		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
+		    return "event/show";
 		} catch (Exception e) {
 			System.out.println(e);
+			return "event/show_create_form";
 		}
 	}
 	
 	@Transactional
 	@RequestMapping ("/event/update")
-	public void updateEvent(ModelMap model,
+	public String updateEvent(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("event") EventFormUpdate event,
-			HttpServletResponse response
+			HttpServletResponse response,
+			BindingResult errors
 		) {
 		try {
+			if(event.getName()==null || event.getName().length() == 0) {
+				errors.rejectValue("title", "event","Vui lòng nhập tên");
+				return "event/show_form_update";
+			}
 			String fileName = "";
 			String[] arrEl = event.getFile().getOriginalFilename().split("\\.");
 			if(arrEl.length>1) {
@@ -115,8 +127,10 @@ public class EventController {
 		    transaction.commit();
 		    session.close();
 		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
+		    return "event/show";
 		} catch (Exception e) {
 			System.out.println(e);
+			return "event/show_form_update";
 		}
 	}
 	
