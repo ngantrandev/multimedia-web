@@ -121,7 +121,7 @@
 	  </div>
 	  <div>
 		  <label class="label-input">Đính kèm file</label>
-		  <input class="form-control form-control-lg" type="file" name="file">
+		  <input class="form-control form-control-lg" accept="image/*" type="file" name="file">
 	  </div>
 	  <a href="/multimedia_web/event/show.htm" class="btn web-btn-back">Quay lại</a>
 	  <button type="submit" class="btn web-btn-send">Gửi</button>
