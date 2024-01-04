@@ -119,13 +119,13 @@
 	  </div>
 	  <div class="form-group">
 	    <label class="label-input">Nội dung</label>
-	    <form:input path="content" class="form-control web-input-content" placeholder="Nhập nội dung" rows="10"></form:input>
+	    <form:textarea rows="10" path="content" class="form-control web-input-content" placeholder="Nhập nội dung"/>
 	  </div>
 	  <div>
 		  <label class="label-input">Đính kèm file</label>
 		  <input multiple class="form-control form-control-lg" type="file" name="file">
 	  </div>
-	  <a href="/multimedia_web/notification/show.htm" class="btn web-btn-back">Quay lại</a>
+	  <a href="/multimedia_web/event/show.htm" class="btn web-btn-back">Quay lại</a>
 	  <button type="submit" class="btn web-btn-send">Sửa</button>
 	</form:form>
 </body>
