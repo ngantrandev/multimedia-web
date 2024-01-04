@@ -140,37 +140,47 @@
 		<table class="table table-bordered" style="border-color: #f6911d">
 			<thead>
 				<tr>
-					<th scope="col" style="width: 10%" class=""><a
-						href="schedule/tkb/${tuan- 1}.htm"
+					<th scope="col" style="width: 10%;" class=""><a
+						href="home/tkb/${tuan- 1}.htm"
 						class="btn d-flex align-items-center text-center"
-						style="background-color: #f79e38"> Tuần trước </a></th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 2</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 3</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 4</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 5</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 6</th>
-					<th scope="col" style="background-color: #f6911d; width: 12.5%">
-						Thứ 7</th>
+						style="background-color: #f79e38; color: white"> Tuần trước </a></th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 2</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 3</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 4</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 5</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 6</th>
+					<th scope="col"
+						style="background-color: #f6911d; width: 12.5%; color: white;border-color: white"
+						class="text-center">Thứ 7</th>
 					<th scope="col" style="width: 10%"><a
-						href="schedule/tkb/${tuan + 1}.htm"
+						href="home/tkb/${tuan + 1}.htm"
 						class="btn d-flex align-items-center text-center"
-						style="background-color: #f79e38"> Tuần sau </a></th>
+						style="background-color: #f79e38; color: white"> Tuần sau </a></th>
 				</tr>
 			</thead>
 			<tbody>
 				<tr>
-					<th scope="row" style="height: 200px">Sáng</th>
+					<th scope="row" style="height: 200px;">Sáng</th>
 
 					<c:forEach var="thu" begin="2" end="8">
 						<td><c:forEach var="scheduleDay" items="${listTkbTuan}">
 								<c:if
 									test="${scheduleDay.thu eq thu and scheduleDay.buoi eq '0'}">
 									<c:out value="${scheduleDay.monhoc.tenmh}" />
+									<br>
+									<c:out value="Giảng viên: ${scheduleDay.tengv}" />
+									<br>
+									<c:out value="Thời gian: ${scheduleDay.thoigian}" />
 									<div
 										style="width: 100%; height: 1px; background-color: #f6911d;"></div>
 								</c:if>
@@ -190,50 +200,7 @@
 					</c:forEach>
 				</tr>
 
-				<%--
-                    <c:choose>
-                        <c:when test="${condition}">
-                            <!-- Thực hiện nếu điều kiện đúng -->
-                            <p>Điều kiện đúng</p>
-                        </c:when>
-                        <c:otherwise>
-                            <!-- Thực hiện nếu điều kiện sai -->
-                            <p>Điều kiện sai</p>
-                        </c:otherwise>
-                    </c:choose>
 
-                    <c:forEach var="buoi" items="${listTkbTuan}">
-                        <tr>
-                            <th scope="row" style="height: 200px">
-                                <c:choose>
-                                    <c:when test="${buoi eq '0'}">Sáng</c:when>
-                                    <c:when test="${buoi eq '1'}">Chiều</c:when>
-                                    <c:otherwise>Không xác định</c:otherwise>
-                                </c:choose>
-                            </th>
-                            <c:forEach
-                                var="thu"
-                                items="${['2', '3', '4', '5', '6', '7']}"
-                            >
-                                <td>
-                                    <c:forEach
-                                        var="schedule"
-                                        items="${listTkbTuan}"
-                                    >
-                                        <c:if
-                                            test="${schedule.buoi eq buoi and schedule.thu eq thu}"
-                                        >
-                                            <!-- Hiển thị thông tin môn học tại đây -->
-                                            <c:out
-                                                value="${schedule.monhoc.tenMonHoc}"
-                                            />
-                                        </c:if>
-                                    </c:forEach>
-                                </td>
-                            </c:forEach>
-                        </tr>
-                    </c:forEach>
-                    --%>
 			</tbody>
 		</table>
 	</div>

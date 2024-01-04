@@ -4,6 +4,21 @@ public class ScheduleDay {
 	private MonHoc monhoc;
 	private String thu; // ngay hoc trong tuan
 	private String buoi; // sang || chieu
+	private String tengv;
+	private String thoigian;
+	
+	public String getTengv() {
+		return tengv;
+	}
+	public void setTengv(String tengv) {
+		this.tengv = tengv;
+	}
+	public String getThoigian() {
+		return thoigian;
+	}
+	public void setThoigian(String thoigian) {
+		this.thoigian = thoigian;
+	}
 	public MonHoc getMonhoc() {
 		return monhoc;
 	}
@@ -26,12 +41,15 @@ public class ScheduleDay {
 		super();
 		// TODO Auto-generated constructor stub
 	}
-	public ScheduleDay(MonHoc monhoc, String thu, String buoi) {
+	public ScheduleDay(MonHoc monhoc, String thu, String buoi, String tengv, String thoigian) {
 		super();
 		this.monhoc = monhoc;
 		this.thu = thu;
 		this.buoi = buoi;
+		this.tengv = tengv;
+		this.thoigian = thoigian;
 	}
+	
 	
 	
 }
