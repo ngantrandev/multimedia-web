@@ -2,6 +2,7 @@ package ptithcm.entity;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -13,7 +14,8 @@ public class DonHang {
 
 	@Id
 	@Column(name = "madonhang")
-	private String maDonHang;
+	@GeneratedValue
+	private int maDonHang;
 
 	@ManyToOne
 	@JoinColumn(name = "buyer")
@@ -27,16 +29,16 @@ public class DonHang {
 	@Column(name = "soluong")
 	private int soLuong;
 	private String time;
-	private Byte state;
-
-	public String getMaDonHang() {
+	private byte state;
+	
+	public int getMaDonHang() {
 		return maDonHang;
 	}
 
-	public void setMaDonHang(String maDonHang) {
+	public void setMaDonHang(int maDonHang) {
 		this.maDonHang = maDonHang;
 	}
-	
+
 	public Student getStudent() {
 		return student;
 	}
@@ -73,7 +75,7 @@ public class DonHang {
 		return state;
 	}
 
-	public void setState(Byte state) {
+	public void setState(byte state) {
 		this.state = state;
 	}
 

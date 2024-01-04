@@ -14,7 +14,7 @@ import ptithcm.entity.AnPham;
 public class Order {
 	@Id
 	@GeneratedValue
-	private String id;
+	private int id;
 	@ManyToOne
 	@JoinColumn(name = "maanpham")
 	private AnPham anPham;
@@ -26,11 +26,12 @@ public class Order {
 	@Column(name = "soluong")
 	private int soLuong;
 
-	public String getId() {
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(String id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 

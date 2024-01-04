@@ -70,7 +70,10 @@ public class UserController {
 				model.addAttribute("message","Đăng nhập thất bại");
 			} 
 			else {
+				user = new Student();
+				model.addAttribute("user",user);
 				model.addAttribute("message", "Đăng nhập thành công");
+				return "home/index";
 			}
 				
 		}catch(Exception ex) {	
@@ -146,6 +149,10 @@ public class UserController {
 				session.save(user);
 				t.commit();
 				model.addAttribute("message","Thêm mới thành công");
+				user = new Student();
+				model.addAttribute("user",user);
+				model.addAttribute("action","login");
+				return "user/login";
 			}
 
 		}catch(Exception ex){

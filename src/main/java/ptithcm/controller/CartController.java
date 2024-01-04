@@ -1,5 +1,7 @@
 package ptithcm.controller;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -15,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ptithcm.entity.AnPham;
+import ptithcm.entity.DonHang;
 import ptithcm.entity.Order;
 import ptithcm.entity.Student;
 
@@ -23,32 +26,190 @@ import ptithcm.entity.Student;
 public class CartController {
 	@Autowired
 	public SessionFactory sessionFactory;
+	String mssv = "N20DCPT009";
+	
 
 	@Transactional
-	@RequestMapping(value = "cart/add/{maAnPham}.htm")
+	@RequestMapping(value = "addtocart/{maAnPham}.htm")
 	public String addToCart(ModelMap model, @PathVariable("maAnPham") String maAnPham) {
 
-		String mssv = "N20DCPT044";
+		
+
+		Student nguoiDat = getStudent(mssv);
+		AnPham anpham = getAnPham(maAnPham);
+
+		if (nguoiDat == null) {
+			return "redirect:/user/login.htm";
+		}
+		if (anpham == null) {
+			return "redirect:/anpham/show_list.htm";
+		}
 
 		Order order = getOrder(maAnPham, mssv);
 
-		if (order != null) {
-			model.addAttribute("order", order);
-			return "record/update";
-		} else {
+		if (order != null) { // da co trong cart
 
+			boolean isSuccess = updateProductCart(order.getId(), true);
+
+			System.out.print("tang so luong " + (isSuccess ? "thanh cong" : "that bai"));
+
+			return "redirect:/anpham/show_list.htm";
+
+		} else { // chua add to cart
 			Order newOrder = new Order();
+
 			newOrder.setSoLuong(1);
+			newOrder.setAnPham(anpham);
+			newOrder.setNguoiDat(nguoiDat);
+
+			boolean isSuccess = createOrder(newOrder);
+
+			System.out.print("add to cart " + (isSuccess ? "thanh cong" : "that bai"));
 
 		}
 
-		return "record/index";
+		return "redirect:/anpham/show_list.htm";
+	}
+
+	@Transactional
+	@RequestMapping(value = "remove/{maAnPham}.htm")
+	public String removeProduct(ModelMap model, @PathVariable("maAnPham") String maAnPham) {
+
+	
+
+		Student nguoiDat = getStudent(mssv);
+		AnPham anpham = getAnPham(maAnPham);
+
+		if (nguoiDat == null) {
+			return "redirect:/user/login.htm";
+		}
+		if (anpham == null) {
+			return "redirect:/anpham/show_list.htm";
+		}
+
+		Order order = getOrder(maAnPham, mssv);
+
+		if (order != null) { // da co trong cart
+
+			if (order.getSoLuong() > 1) { // so luong > 1 thi giam xuong
+				boolean isSuccess = updateProductCart(order.getId(), false);
+
+				System.out.print("giam so luong " + (isSuccess ? "thanh cong" : "that bai"));
+			} else {
+				boolean isSuccess = deleteOrder(order.getId());
+
+				System.out.print("xoa order " + (isSuccess ? "thanh cong" : "that bai"));
+			}
+
+			return "redirect:/anpham/show_list.htm";
+
+		}
+
+		return "redirect:/anpham/show_list.htm";
+	}
+
+	@Transactional
+	@RequestMapping("dat_hang")
+	public String onPressThanhToan(ModelMap model) {
+
+		Student nguoiDat = getStudent(mssv);
+		List<Order> listOrder = getListOrder(mssv);
+
+		if (nguoiDat == null) {
+			return "redirect:/user/login.htm";
+		}
+
+		if (listOrder != null && listOrder.size() > 0) {
+			boolean isSuccess = datHang(listOrder, mssv);
+
+			System.out.print("dat hang " + (isSuccess ? "thanh cong" : "that bai"));
+
+			model.addAttribute("message", isSuccess ? "Đặt hàng thành công!" : "Đặt hàng thất bại!");
+			return "anpham/result_dathang";
+		}
+
+		return "redirect:/anpham/show_list.htm";
+	}
+
+	private boolean datHang(List<Order> listOrder, String mssv) {
+		System.out.println("Dat hang");
+		// TODO Auto-generated method stub
+		boolean isCreateSuccess = createListDonHang(listOrder);
+
+		if (isCreateSuccess) {
+			boolean isClearSuccess = clearOrder(mssv);
+
+			return isClearSuccess;
+		}
+
+		return false;
+	}
+
+	// clear list order of user
+	private boolean clearOrder(String mssv) {
+	
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+
+		try {
+			String hql = "DELETE FROM Order WHERE mssv = :mssvParam";
+			Query query = session.createQuery(hql);
+			query.setParameter("mssvParam", mssv);
+
+			int rowCount = query.executeUpdate();
+			System.out.println("Số lượng bản ghi đã bị xóa: " + rowCount);
+
+			t.commit();
+			return true;
+		} catch (Exception e) {
+			e.printStackTrace();
+			t.rollback();
+		} finally {
+			session.close();
+		}
+
+		return false;
+	}
+
+	private boolean createListDonHang(List<Order> listOrder) {
+		// TODO Auto-generated method stub
+	
+
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+
+		String timeDatHang = getCurrTime();
+
+		try {
+			for (Order cartItem : listOrder) {
+				DonHang donHang = new DonHang();
+				donHang.setStudent(cartItem.getNguoiDat());
+				donHang.setAnPham(cartItem.getAnPham());
+				donHang.setSoLuong(cartItem.getSoLuong());
+				donHang.setTime(timeDatHang);
+				donHang.setState((byte) 0);
+
+				session.save(donHang);
+				
+			}
+
+			t.commit();
+			return true;
+		} catch (Exception e) {
+			t.rollback();
+			e.printStackTrace();
+			
+		} finally {
+			session.close();	
+		}
+
+		return false;
 	}
 
 	private Order getOrder(String maAnPham, String mssv) {
 		Session session = sessionFactory.openSession();
 		try {
-			String hql = "FROM Order WHERE id = :maAnPham AND mssv = :mssv";
+			String hql = "FROM Order WHERE maanpham = :maAnPham AND mssv = :mssv";
 			Query query = session.createQuery(hql);
 			query.setParameter("maAnPham", maAnPham);
 			query.setParameter("mssv", mssv);
@@ -56,6 +217,28 @@ public class CartController {
 			List<Order> orderList = query.list();
 			if (!orderList.isEmpty()) {
 				return orderList.get(0);
+			} else {
+				return null;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		} finally {
+			session.close();
+		}
+
+		return null;
+	}
+
+	private List<Order> getListOrder(String mssv) {
+		Session session = sessionFactory.openSession();
+		try {
+			String hql = "FROM Order WHERE mssv = :mssv";
+			Query query = session.createQuery(hql);
+			query.setParameter("mssv", mssv);
+
+			List<Order> orderList = query.list();
+			if (!orderList.isEmpty()) {
+				return orderList;
 			} else {
 				return null;
 			}
@@ -90,7 +273,7 @@ public class CartController {
 		return null;
 	}
 
-	private AnPham getOrder(String maAnPham) {
+	private AnPham getAnPham(String maAnPham) {
 		Session session = sessionFactory.openSession();
 		try {
 			String hql = "FROM AnPham WHERE maanpham = :maAnPham";
@@ -120,12 +303,66 @@ public class CartController {
 			t.commit();
 			return true;
 		} catch (Exception e) {
+			e.printStackTrace();
 			t.rollback();
 		} finally {
 			session.close();
 		}
 
 		return false;
+	}
+
+	// isIncrease = true => tang soluong, nguoc lai giam
+	private boolean updateProductCart(int targetOrderId, boolean isIncrease) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			Order updateOrder = (Order) session.get(Order.class, targetOrderId);
+
+			if (isIncrease) {
+				updateOrder.setSoLuong(updateOrder.getSoLuong() + 1);
+			} else {
+				updateOrder.setSoLuong(updateOrder.getSoLuong() - 1);
+			}
+
+			session.update(updateOrder);
+			t.commit();
+			return true;
+		} catch (Exception e) {
+			t.rollback();
+		} finally {
+			session.close();
+		}
+
+		return false;
+	}
+
+	private boolean deleteOrder(int targetOrderId) {
+		Session session = sessionFactory.openSession();
+		Transaction t = session.beginTransaction();
+		try {
+			session.delete(session.load(Order.class, targetOrderId));
+			t.commit();
+			return true;
+		} catch (Exception e) {
+			t.rollback();
+			System.out.print(e.toString());
+		} finally {
+			session.close();
+		}
+
+		return false;
+	}
+
+	private String getCurrTime() {
+		// Lấy thời gian hiện tại
+		LocalDateTime currentDateTime = LocalDateTime.now();
+
+		// format ("dd/MM/yyyy HH:mm:ss")
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy HH:mm:ss");
+
+		// convert
+		return currentDateTime.format(formatter);
 	}
 
 }
