@@ -252,13 +252,18 @@ public class AnPhamController {
 			@ModelAttribute("anPhamForm") AnPhamForm anPhamForm, @PathVariable("maAnPham") String maAnPham,
 			HttpServletResponse response, BindingResult errors, HttpSession sessionClient) {
 
+		anPhamForm.setGia(anPhamForm.getGia().replaceAll("[^0-9]", ""));
+		anPhamForm.setSoLuongTon(anPhamForm.getSoLuongTon().replaceAll("[^0-9]", ""));
+
 		if (anPhamForm.getTen().length() == 0) {
 			errors.rejectValue("ten", "anpham", "Vui lòng nhập tên ấn phẩm!");
 		}
 		if (anPhamForm.getGia().length() == 0) {
 			errors.rejectValue("gia", "anpham", "Vui lòng nhập giá ấn phẩm!");
 		} else {
+
 			try {
+
 				int giatien = Integer.parseInt(anPhamForm.getGia());
 				if (giatien <= 1000 || giatien >= 1000000) {
 					errors.rejectValue("gia", "anpham", "Giá phải nằm trong khoảng 1000 - 1.000.000 vnđ!");
@@ -290,6 +295,8 @@ public class AnPhamController {
 		}
 
 		if (errors.hasErrors()) {
+			AnPham currAnPham = getAnPham(maAnPham);
+			model.addAttribute("currAnPham", currAnPham);
 			return "anpham/form_update";
 		}
 

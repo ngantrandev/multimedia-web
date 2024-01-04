@@ -106,7 +106,7 @@
 						<div class="row">
 							<div class="col-4">
 								<img
-									src="https://iblue.vn/uploads/news/2016_12/huong-dan-chup-hinh-quan-ao.jpg"
+									src="${u.anPham.imgUrl}"
 									alt="hình" srcset="" style="width: 100px; height: auto" />
 							</div>
 							<div class="col-4">
