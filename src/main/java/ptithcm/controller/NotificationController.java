@@ -1,7 +1,6 @@
 package ptithcm.controller;
 
 import java.io.File;
-import java.net.http.HttpHeaders;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -9,9 +8,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 
-import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -19,14 +18,10 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
 import ptithcm.config.EnvConfig;
@@ -45,8 +40,9 @@ public class NotificationController {
 	
 	@Transactional
 	@RequestMapping ("/notification/show")
-	public String showPage(ModelMap model) {
-		Student student = (Student) sessionFactory.getCurrentSession().createQuery("FROM Student WHERE mssv = :mssv").setParameter("mssv", "N20DCPT009").uniqueResult();
+	public String showPage(ModelMap model,HttpSession session) {
+		Student studentSession = (Student) session.getAttribute("student");
+		Student student = (Student) sessionFactory.getCurrentSession().createQuery("FROM Student WHERE mssv = :mssv").setParameter("mssv", studentSession.getStudentCode()).uniqueResult();
 		ArrayList<Notification> notifications = new ArrayList<>(student.getNotifications());
 		Collections.reverse(notifications);
 		for(int i=0;i<notifications.size();++i) {
@@ -70,7 +66,8 @@ public class NotificationController {
 	public void createNotification(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("notification") NotificationForm notification,
-			HttpServletResponse response
+			HttpServletResponse response,
+			HttpSession sessionClient
 		) {
 		try {
 			Date date = new Date();
@@ -98,7 +95,8 @@ public class NotificationController {
 			fileName = fileName.trim();
 			Session session = sessionFactory.openSession();
 		    Transaction transaction = session.beginTransaction();
-		    Student poster = (Student) session.get(Student.class, "N20DCPT009");
+		    Student studentSession = (Student) sessionClient.getAttribute("student");
+		    Student poster = (Student) session.get(Student.class, studentSession.getStudentCode());
 		    List<Student> studentsSent = session.createQuery("FROM Student WHERE malop = :classCode").setParameter("classCode", poster.getClassCode()).list();
 		    session.save(new Notification(notiCode,notification.getContent(),notification.getTitle(),poster,time,"docs",fileName,studentsSent));
 		    transaction.commit();
@@ -134,9 +132,11 @@ public class NotificationController {
 			fileName = fileName.trim();
 			Session session = sessionFactory.openSession();
 		    Transaction transaction = session.beginTransaction();
-		    Student poster = (Student) session.get(Student.class, "N20DCPT009");
-		    List<Student> studentsSent = session.createQuery("FROM Student WHERE malop = :classCode").setParameter("classCode", poster.getClassCode()).list();
-		    session.update(new Notification(notification.getNotifiCode(),notification.getContent(),notification.getTitle(),poster,notification.getTime(),"docs",fileName,studentsSent));
+		    Notification notificationInDb = (Notification) session.get(Notification.class,notification.getNotifiCode());
+		    notificationInDb.setTitle(notification.getTitle());
+		    notificationInDb.setContent(notification.getContent());
+		    notificationInDb.setFiles(fileName);
+		    session.update(notificationInDb);
 		    transaction.commit();
 		    session.close();
 		    response.sendRedirect(request.getContextPath() + "/notification/show.htm");

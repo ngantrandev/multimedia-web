@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="b35407f1-cf48-4f18-9e5c-23452210794a" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/build/classes/ptithcm/controller/UserController.class" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ptithcm/controller/UserController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ptithcm/entity/NotificationForm.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ptithcm/entity/NotificationFormUpdate.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/forgetpassword.jsp" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/webapp/WEB-INF/views/user/login.jsp" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" beforeDir="false" afterPath="$PROJECT_DIR$/.settings/org.eclipse.wst.common.component" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/ptithcm/controller/NotificationController.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/ptithcm/controller/NotificationController.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/ptithcm/entity/Notification.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/ptithcm/entity/Notification.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/build/classes/ptithcm/entity/Student.class" beforeDir="false" afterPath="$PROJECT_DIR$/build/classes/ptithcm/entity/Student.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ptithcm/controller/NotificationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ptithcm/controller/NotificationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ptithcm/entity/Student.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ptithcm/entity/Student.java" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="ProjectId" id="2aRdN0Vu6LjaN5hU31TM1KGDiKl" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "git-widget-placeholder": "Merging main",
+    "last_opened_file_path": "/Users/ldevmobile1710/eclipse-workspace/multimedia_web/multimedia_web"
+  }
+}]]></component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="b35407f1-cf48-4f18-9e5c-23452210794a" name="Changes" comment="" />
+      <created>1704285282035</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1704285282035</updated>
+    </task>
+    <servers />
+  </component>
+</project>

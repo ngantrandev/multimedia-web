@@ -12,6 +12,7 @@ import java.util.List;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import javax.transaction.Transactional;
 
 import org.hibernate.Query;
@@ -61,7 +62,8 @@ public class EventController {
 	public void createEvent(ModelMap model,
 			HttpServletRequest request
 			,@ModelAttribute("event") EventForm event,
-			HttpServletResponse response
+			HttpServletResponse response,
+			HttpSession sessionClient
 		) {
 		try {
 			Date date = new Date();
@@ -76,7 +78,8 @@ public class EventController {
 					envConfig.getPathUploadFile()+"/"+fileName));
 			Session session = sessionFactory.openSession();
 		    Transaction transaction = session.beginTransaction();
-		    Student poster = (Student) session.get(Student.class, "N20DCPT009");
+		    Student studentClient = (Student) sessionClient.getAttribute("student");
+		    Student poster = (Student) session.get(Student.class, studentClient.getStudentCode());
 		    session.save(new Event(eventCode,event.getName(),event.getContent(),time,fileName,poster));
 		    transaction.commit();
 		    session.close();
@@ -104,8 +107,11 @@ public class EventController {
 			}
 			Session session = sessionFactory.openSession();
 		    Transaction transaction = session.beginTransaction();
-		    Student poster = (Student) session.get(Student.class, "N20DCPT009");
-		    session.update(new Event(event.getEventCode(),event.getName(),event.getContent(),event.getTime(),fileName,poster));
+		    Event eventInDb = (Event) session.get(Event.class, event.getEventCode());
+		    eventInDb.setName(event.getName());
+		    eventInDb.setContent(event.getContent());
+		    eventInDb.setNameThumbImg(fileName);
+		    session.update(eventInDb);
 		    transaction.commit();
 		    session.close();
 		    response.sendRedirect(request.getContextPath() + "/event/show.htm");
