@@ -59,7 +59,7 @@ public class NotificationController {
 			}
 		}
 		model.addAttribute("notifications",notifications);
-		model.addAttribute("isBcs",true);
+		model.addAttribute("isBcs",(studentSession.getBcs()==1));
 		return "notification/notification_page";
 	}
 	
