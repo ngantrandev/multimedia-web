@@ -50,11 +50,12 @@ public class EventController {
 	
 	@Transactional
 	@RequestMapping ("/event/show")
-	public String showPage(ModelMap model) {
+	public String showPage(ModelMap model,HttpSession sessionClient) {
 		List<Event> events = sessionFactory.getCurrentSession().createQuery("FROM Event").list();
 		Collections.reverse(events);
 		model.addAttribute("events",events);
-		model.addAttribute("isBch",true);
+		Student student = (Student) sessionClient.getAttribute("student");
+		model.addAttribute("isBch",(student.getBch()==1));
 		return "event/event_page";
 	}
 	
